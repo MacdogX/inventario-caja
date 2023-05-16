@@ -46,12 +46,12 @@
     </div>
   </form>
   <p class="text-center text-gray-500 text-xs">
-    &copy;2020 Acme Corp. All rights reserved.
+    &copy;2022 .
   </p>
 </div>
 
 
-
+<!--
         <h1>Login</h1>
   <form method="post" action="login.php">
     <label for="correo">Correo:</label>
@@ -70,7 +70,7 @@
   <p><a href="recuperar_contrasena.php">¿Olvidaste tu contraseña?</a></p>
 
 
-
+-->
 
         <footer>
         </footer>
