@@ -10,7 +10,7 @@
 </head>
     <body>
         <header>
-
+        <link rel="stylesheet" href="controller/login.css">
         </header>
         <?php include 'controller/librery/librery.php';?>
         <main>
@@ -20,8 +20,9 @@
 
         </main>
    
+<div class="container mx-auto px-4 flex items-center justify-center h-screen">
 
-        <div class="w-full max-w-xs">
+        <div class="w-full max-w-xs h-8">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" action="login.php">
     <div class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -34,7 +35,7 @@
         Contraseña
       </label>
       <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
-      <p class="text-red-500 text-xs italic">Please choose a password.</p>
+      <p class="text-red-500 text-xs italic"></p>
     </div>
     <div class="flex items-center justify-between">
       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
@@ -50,6 +51,7 @@
   </p>
 </div>
 
+</div>
 
 <!--
         <h1>Login</h1>
@@ -71,7 +73,6 @@
 
 
 -->
-
         <footer>
         </footer>
     </body>
