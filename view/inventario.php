@@ -9,7 +9,14 @@
 </head>
 <body>
     
-        <?php  include '../view/nav/nav.php'; ?>
+        <?php  include '../view/nav/nav.php'; 
+        require_once '../model/guardar_producto.php';
+
+        // Crear una instancia de la clase Database
+        $database = new Connection;
+
+
+        ?>
 
 
         <div class="container mx-auto">
@@ -76,7 +83,7 @@
         <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
-            <form action="guardar_producto.php" method="POST">
+            <form action="guardar_producto.php" method="POST" id="productForm">
                 <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>
@@ -89,10 +96,12 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
                 </div>
+    
                 <div class="flex justify-end">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
-                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
+                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" onclick="saveProduct()">Guardar</button>
+                  <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
                 </div>
+                
             </form>
             </div>
         </div>
@@ -101,6 +110,39 @@
 
 </div>
 <script>
+
+   function saveProduct() {
+    // Obtener los valores de los campos del formulario
+    var name = document.getElementById('name').value;
+    var price = document.getElementById('price').value;
+    var description = document.getElementById('description').value;
+
+    // Crear un objeto FormData para enviar los datos del formulario
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+
+    // Crear y configurar la petición AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../model/guardar_producto.php', true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // La petición se completó exitosamente
+            var response = xhr.responseText;
+            // Manejar la respuesta del servidor
+            console.log(response);
+        } else {
+            // Hubo un error en la petición
+            console.error('Error en la petición AJAX');
+        }
+    };
+    xhr.send(formData);
+}
+
+
+
+
     function openModal() {
       document.getElementById('modal').classList.remove('hidden');
     }

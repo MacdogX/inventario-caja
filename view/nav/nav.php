@@ -6,8 +6,9 @@
   </a>
   <div class="flex items-center md:order-2">
     <?php
-  //require_once "../model/login.php";
-  $sessionManager = new SessionManager();
+
+include '';
+ $sessionManager = new SessionManager();
 
 // Comprobar si se ha enviado una solicitud de cierre de sesión
   if (isset($_GET['logout'])) {
