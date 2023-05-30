@@ -32,43 +32,31 @@
         <div class="-m-1.5 overflow-x-auto">
           <div class="p-1.5 min-w-full inline-block align-middle">
             <div class="border rounded-lg overflow-hidden dark:border-gray-700">
-              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead>
-
-                            <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Age</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
-                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
-                            </tr>
-                        </thead>
+              <table style="width:100%" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 stripe hover" id="example" name="example">
+                <thead>
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Producto</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cantidad</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Precio</th>
+                              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acción</th>
+                          </tr>
+                      </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">John Brown</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">45</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">New York No. 1 Lake Park</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a class="text-blue-500 hover:text-blue-700" href="#">Delete</a>
-                            </td>
-                            </tr>
+                          <?php 
+                              include_once '../model/traerdatos.php';
 
-                            <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">Jim Green</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">27</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">London No. 1 Lake Park</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a class="text-blue-500 hover:text-blue-700" href="#">Delete</a>
-                            </td>
-                            </tr>
+                              // Crear una instancia de la clase "datosproductos"
+                              $datosProductos = new datosproductos();
 
-                            <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">Joe Black</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">31</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">Sidney No. 1 Lake Park</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a class="text-blue-500 hover:text-blue-700" href="#">Delete</a>
-                            </td>
-                            </tr>
+                              // Llamar al método "mostrarTablaProductos()" para mostrar los datos en una tabla
+                              $datosProductos->mostrarTablaProductos();
+                    
+                                //  foreach ($productos as $producto): ?>
+                         
+
+
+                     <?php //endforeach; ?>
+
                         </tbody>
                         </table>
                     </div>
@@ -79,7 +67,7 @@
         </div>
 
 
-        <!-- Modal -->
+        <!-- Modal --><!--
         <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
@@ -107,13 +95,42 @@
         </div>
         
      </div>
+-->
+
+     <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
+        <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
+        <form onsubmit="saveProduct(); return false;">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="price" name="price" type="number" step="0.01" placeholder="Ingrese el precio del producto" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
+            </div>
+            <div class="flex justify-end">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
+                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
 <script>
 
-   function saveProduct() {
-    // Obtener los valores de los campos del formulario
-    var name = document.getElementById('name').value;
+function saveProduct() {
+ // Obtener los valores de los campos del formulario
+ var name = document.getElementById('name').value;
     var price = document.getElementById('price').value;
     var description = document.getElementById('description').value;
 
@@ -129,27 +146,56 @@
     xhr.onload = function() {
         if (xhr.status === 200) {
             // La petición se completó exitosamente
-            var response = xhr.responseText;
+            var response = JSON.parse(xhr.responseText);
             // Manejar la respuesta del servidor
-            console.log(response);
+            if (response.status === 'success') {
+                console.log('Producto guardado correctamente');
+                // Cerrar el modal y restablecer los campos
+                closeModal();
+                document.getElementById('name').value = '';
+                document.getElementById('price').value = '';
+                document.getElementById('description').value = '';
+            } else {
+                console.error('Error al guardar el producto: ' + response.message);
+            }
         } else {
             // Hubo un error en la petición
             console.error('Error en la petición AJAX');
         }
     };
     xhr.send(formData);
-}
+  }
+      function openModal() {
+        document.getElementById('modal').classList.remove('hidden');
+      }
+      function closeModal() {
+        document.getElementById('modal').classList.add('hidden');
+      }
 
-
-
-
-    function openModal() {
-      document.getElementById('modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
-    }
+      $(document).ready(function() {
+    $('#example').DataTable( {
+        /*responsive: {
+            details: {
+                type: 'inline',
+                //target: 'tr'
+            }
+        },
+        columnDefs: [ 
+          
+           // { responsivePriority: 1, targets: 0 },
+           // { responsivePriority: 2, targets: -2 },
+        {
+            className: 'control',
+            orderable: false,
+            targets:   0
+        } ],
+        order: [ 1, 'asc' ]*/
+        
+        responsive: true        
+        
+        
+    } );
+} );
   </script>
 
 

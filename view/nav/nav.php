@@ -6,7 +6,7 @@
   </a>
   <div class="flex items-center md:order-2">
     <?php
-
+/*
 include '';
  $sessionManager = new SessionManager();
 
@@ -14,7 +14,7 @@ include '';
   if (isset($_GET['logout'])) {
     // Llamar al método logout() de la instancia de la clase SessionManager
     $sessionManager->logout();
-}
+}*/
 
   ?>
   <!--    

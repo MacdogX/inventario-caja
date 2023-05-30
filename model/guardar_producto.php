@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../librery/Database.php';
+require_once '../controller/librery/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
@@ -9,8 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db = new Connection();
     $db->guardarProducto($name, $price, $description);
-    $db->cerrarConexion();
+  
 }
+
 
 
 ?>
