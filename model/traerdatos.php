@@ -12,7 +12,7 @@ class datosproductos{
     public function obtenerProductos() {
         try{
         $pdo = $this->connection->conexion();
-        $sql = "SELECT * FROM productos order by id desc";
+        $sql = "SELECT * FROM ventaproducto order by id desc";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,6 +23,7 @@ class datosproductos{
         die("Error al obtener los productos: " . $e->getMessage());
     }
 }
+
 
 /*
 

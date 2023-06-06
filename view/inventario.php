@@ -22,15 +22,13 @@
 
         // Crear una instancia de la clase Database
         $database = new Connection;
-
-
-        ?>
+         ?>
 <div class="container mx-auto">
     <div class="grid grid-cols-3 gap-4">
         <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex justify-center items-center">
             <!-- Modal toggle -->
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
-        </div>
+       </div>
         <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
             <!-- table -->
             <div class="flex flex-col justify-center items-center">
@@ -43,8 +41,9 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Id</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Cantidad</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Precio</th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase ">Acción</th>
                                         <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Producto</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase ">Acción</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -58,8 +57,9 @@
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['id']; ?></td>
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['cantidad']; ?></td>
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['precio']; ?></td>
-                                        <td class="sm:text-xs md:text-sm">action</td>
                                         <td class="sm:text-xs md:text-sm"><?php  $nombreReducido = strlen($producto['nombre']) > 10 ? substr($producto['nombre'], 0, 10) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>
+                                        <td class="sm:text-xs md:text-sm">action</td>
+                                       
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -87,7 +87,7 @@
             <form onsubmit="saveProduct(); return false;">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>                    
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
@@ -105,6 +105,7 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
@@ -142,6 +143,8 @@ function saveProduct() {
                 document.getElementById('name').value = '';
                 document.getElementById('price').value = '';
                 document.getElementById('description').value = '';
+                window.location.reload()
+               
             } else {
                 console.error('Error al guardar el producto: ' + response.message);
             }
@@ -162,7 +165,9 @@ function saveProduct() {
 
 <script>
     $(document).ready(function () {
-    $('#example').DataTable();
+    $('#example').DataTable({
+        order: [[0, 'desc']],
+    });
 });
 /*
 $(document).ready(function() {
@@ -190,23 +195,34 @@ $(document).ready(function() {
 </script>
 
 <script>
-    /*
-$(document).ready(function() {
-    $('#example').DataTable( {
-        responsive: {
-            details: {
-                type: 'column'
-            }
-        },
-        columnDefs: [ {
-            className: 'dtr-control',
-            orderable: false,
-            targets:   0
-        } ],
-        order: [ 3, 'asc' ]
-    } );
-} );*/
+     function enviarDatos() {
+    // Obtener el valor del input
+    var nombre = document.getElementById('name').value;
+
+    // Crear un objeto FormData para enviar los datos
+    var formData = new FormData();
+    formData.append('name', name);
+
+    // Crear y configurar la petición AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../model/buscar_productos.php', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // La petición se completó exitosamente
+        var response = xhr.responseText;
+        // Manejar la respuesta del servidor
+        console.log(response);
+        // Cerrar el modal
+        closeModal();
+      } else {
+        // Hubo un error en la petición
+        console.error('Error en la petición AJAX');
+      }
+    };
+    xhr.send(formData);
+  }
 </script>
+
 
 
 

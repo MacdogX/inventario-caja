@@ -26,27 +26,30 @@ class Connection {
         }
       }
       public function guardarProducto($nombre, $cantidad, $precio)
-      {
-          try {
-              $pdo = $this->conexion();
-              $sql = "INSERT INTO productos (nombre, cantidad, precio) VALUES (?, ?, ?)";
-              $stmt = $pdo->prepare($sql);
-              $stmt->execute([$nombre, $cantidad, $precio]);
-              $response = array(
-                  "status" => "success",
-                  "message" => "Producto guardado correctamente"
-              );
-          } catch (PDOException $e) {
-              $response = array(
-                  "status" => "error",
-                  "message" => "Error al guardar el producto: " . $e->getMessage()
-              );
-          }
-      
-          header('Content-Type: application/json');
-          echo json_encode($response);
-      }
-  
+{
+    try {
+        $pdo = $this->conexion();
+        $valorprecio = $cantidad * $precio;
+        $sql = "INSERT INTO ventaproducto (nombre, cantidad, precio) VALUES (:nombre, :cantidad, :valorprecio)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':cantidad', $cantidad);
+        $stmt->bindValue(':valorprecio', $valorprecio);
+        $stmt->execute();
+        $response = array(
+            "status" => "success",
+            "message" => "Producto guardado correctamente"
+        );
+    } catch (PDOException $e) {
+        $response = array(
+            "status" => "error",
+            "message" => "Error al guardar el producto: " . $e->getMessage()
+        );
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
 
     
   }
