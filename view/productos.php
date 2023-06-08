@@ -25,7 +25,7 @@
 
 <div class="container mx-auto">
             <div class="grid grid-cols-3 gap-4">
-                <div class="col-span-3 md:col-span-1 bg-gray-500 p-4 flex justify-center items-center">
+                <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex justify-center items-center">
                     <!-- Modal toggle -->
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
             </div>
@@ -49,21 +49,29 @@
                         </tr>
                     </thead>
                     <tbody>
+                   
+                   <?php 
+                        include_once '../model/traerdatos.php';
+                        $datosProductos = new datosproductos();
+                        $productos = $datosProductos->obternerproducto();
+                        foreach ($productos as $producto):
+                        ?>
                         <tr class="bg-blue-300 border-b border-blue-400">
+                            
                             <th scope="row" class="text-center px-6 py-4 font-medium text-blue-250 whitespace-nowrap dark:text-blue-200">
-                                1
+                            <?php echo $producto['id']; ?>
                             </th>
                             <td class="px-6 py-4 text-center ">
-                               Gaseosa
+                            <?php echo $producto['name_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
-                                $2999
+                            <?php echo $producto['value_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
                                 <a href="#" class="font-medium text-white hover:underline">Editar</a>
                             </td>
                         </tr>
-                    
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -102,8 +110,7 @@
         </div>
     </div> 
     
-    
-    
+
    
 
 
@@ -119,6 +126,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
+
 <script>
     $(document).ready(function () {
     $('#example').DataTable({
@@ -128,50 +136,103 @@
 
 </script>
 <script>
-function saveProduct() {
- // Obtener los valores de los campos del formulario
- var name = document.getElementById('name').value;
-var description = document.getElementById('description').value;
-var value = document.getElementById('value').value;
+  function saveProduct() {
+    // Obtener los valores de los campos del formulario
+    var name = document.getElementById('name').value;
+    var description = document.getElementById('description').value;
+    var value = document.getElementById('value').value;
 
     // Crear un objeto FormData para enviar los datos del formulario
     var formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
-    formData.append('value' value);
+    formData.append('value', value);
 
     // Crear y configurar la petición AJAX
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../model/guardar_producto.php', true);
+    xhr.open('POST', '../model/modelos.php', true);
     xhr.onload = function() {
-        if (xhr.status === 200) {
-            // La petición se completó exitosamente
-            var response = JSON.parse(xhr.responseText);
-            // Manejar la respuesta del servidor
-            if (response.status === 'success') {
-                console.log('Producto guardado correctamente');
-                // Cerrar el modal y restablecer los campos
-                closeModal();
-                document.getElementById('name').value = '';
-                document.getElementById('description').value = '';
-                window.location.reload()
-               
-            } else {
-                console.error('Error al guardar el producto: ' + response.message);
-            }
+      if (xhr.status === 200) {
+        // La petición se completó exitosamente
+        var response = JSON.parse(xhr.responseText);
+        // Manejar la respuesta del servidor
+        if (response.status === 'success') {
+          console.log('Producto guardado correctamente');
+          // Cerrar el modal y restablecer los campos
+          closeModal();
+          document.getElementById('name').value = '';
+          document.getElementById('description').value = '';
+          window.location.reload();
         } else {
-            // Hubo un error en la petición
-            console.error('Error en la petición AJAX');
+          console.error('Error al guardar el producto: ' + response.message);
         }
+      } else {
+        // Hubo un error en la petición
+        console.error('Error en la petición AJAX');
+      }
     };
     xhr.send(formData);
   }
-      function openModal() {
-        document.getElementById('modal').classList.remove('hidden');
+
+  function openModal() {
+    document.getElementById('modal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.add('hidden');
+  }
+
+
+</script>
+
+<script src="">
+function searchProduct() {
+  var searchQuery = document.getElementById('searchInput').value;
+  
+  // Crear y configurar la petición AJAX
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'buscar_producto.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // La petición se completó exitosamente
+      var response = JSON.parse(xhr.responseText);
+      // Manejar la respuesta del servidor
+      if (response.status === 'success') {
+        var results = response.data;
+        // Manejar los resultados de la búsqueda
+        displayResults(results);
+      } else {
+        console.error('Error al buscar el producto: ' + response.message);
       }
-      function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-      }
+    } else {
+      // Hubo un error en la petición
+      console.error('Error en la petición AJAX');
+    }
+  };
+  
+  // Enviar la solicitud AJAX con los datos de búsqueda
+  var data = 'searchQuery=' + encodeURIComponent(searchQuery);
+  xhr.send(data);
+}
+
+function displayResults(results) {
+  var searchResults = document.getElementById('searchResults');
+  searchResults.innerHTML = ''; // Limpiar resultados anteriores
+  
+  if (results.length === 0) {
+    searchResults.innerHTML = 'No se encontraron resultados';
+  } else {
+    // Crear elementos para mostrar los resultados
+    for (var i = 0; i < results.length; i++) {
+      var result = results[i];
+      var resultItem = document.createElement('div');
+      resultItem.textContent = result.name + ' - ' + result.description;
+      searchResults.appendChild(resultItem);
+    }
+  }
+}
+
 </script>
 </body>
 </html>

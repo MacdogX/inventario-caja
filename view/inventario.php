@@ -81,10 +81,11 @@
         <div>
         </div>
     </div>
+   
     <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
-            <form onsubmit="saveProduct(); return false;">
+            <form id="productForm" onsubmit="saveProduct(); return false;">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>                    
@@ -98,6 +99,7 @@
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
                 </div>
                 <div class="flex justify-end">
+                
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
                     <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
                 </div>
@@ -105,6 +107,14 @@
         </div>
     </div>
 </div>
+<!--<input type="text" id="searchInput" onkeyup="searchProduct()">-->
+<div id="searchResults"></div>
+
+<input type="text" id="searchInput">
+
+<input type="text" id="searchQueryInput">
+<ul id="searchResults"></ul>
+    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -169,60 +179,56 @@ function saveProduct() {
         order: [[0, 'desc']],
     });
 });
-/*
-$(document).ready(function() {
-    $('#example').DataTable( {
-        responsive: {
-            details: {
-                renderer: function ( api, rowIdx, columns ) {
-                    var data = $.map( columns, function ( col, i ) {
-                        return col.hidden ?
-                            '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-                                '<td>'+col.title+':'+'</td> '+
-                                '<td>'+col.data+'</td>'+
-                            '</tr>' :
-                            '';
-                    } ).join('');
- 
-                    return data ?
-                        $('<table/>').append( data ) :
-                        false;
-                }
-            }
-        }
-    } );
-} );*/
 </script>
 
 <script>
-     function enviarDatos() {
-    // Obtener el valor del input
-    var nombre = document.getElementById('name').value;
+var searchInput = document.getElementById('searchInput');
 
-    // Crear un objeto FormData para enviar los datos
-    var formData = new FormData();
-    formData.append('name', name);
+// Escuchar el evento 'input' en el input de búsqueda
+searchInput.addEventListener('input', function() {
+  // Obtener el valor del input
+  var query = searchInput.value;
 
-    // Crear y configurar la petición AJAX
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../model/buscar_productos.php', true);
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        // La petición se completó exitosamente
-        var response = xhr.responseText;
-        // Manejar la respuesta del servidor
-        console.log(response);
-        // Cerrar el modal
-        closeModal();
+  // Realizar la consulta Ajax
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '../model/buscar_productos.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Parsear la respuesta JSON
+      var response = JSON.parse(xhr.responseText);
+
+      // Verificar el estado de la respuesta
+      if (response.status === 'success') {
+        // Obtener los datos de la respuesta
+        var results = response.data;
+
+        // Mostrar la información de búsqueda en el input
+        var searchQueryInput = document.getElementById('searchQueryInput');
+        searchQueryInput.value = 'Resultados para: ' + query;
+
+        // Mostrar los resultados en una lista
+        var resultList = document.getElementById('searchResults');
+        resultList.innerHTML = '';
+
+        for (var i = 0; i < results.length; i++) {
+          var result = results[i];
+          var listItem = document.createElement('li');
+          listItem.textContent = result.nombre + ' - ' + result.descripcion;
+          resultList.appendChild(listItem);
+        }
       } else {
-        // Hubo un error en la petición
-        console.error('Error en la petición AJAX');
+        // Mostrar un mensaje de error
+        console.error(response.message);
       }
-    };
-    xhr.send(formData);
-  }
-</script>
+    }
+  };
 
+  // Enviar la consulta con el nombre como parámetro
+  var params = 'nombre=' + encodeURIComponent(query);
+  xhr.send(params);
+});
+</script>
 
 
 

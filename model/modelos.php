@@ -4,22 +4,23 @@ class ingresoproductos
 {
     private $connection;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->connection = new Connection();
     }
     
-    public function guardarProducto($name, $description, $value)
+    public function guardarProducto($name, $description)
     {
-        $query = "INSERT INTO productos (nombre, descripcion, valor) VALUES (:name, :description, :value)";
-
         try {
-            $stmt = $this->connection->conexion($query);
-            
+            $pdo = $this->connection->conexion();
+           
+            $query = "INSERT INTO productos (name_producto, value_producto) VALUES (:name, :description)";
+    
+            $stmt = $pdo->prepare($query);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':value', $value);
             $stmt->execute();
-
+    
             return true;
         } catch (PDOException $e) {
             echo 'Error al guardar el producto: ' . $e->getMessage();
@@ -36,12 +37,12 @@ if ($value == 1) {
     // Obtener los otros valores enviados mediante la solicitud POST
     $name = $_POST['name'];
     $description = $_POST['description'];
-
-    // Crear una instancia de la clase Database
-    $db = new Database();
+//echo "imprimir " .$name .$description;
+    // Crear una instancia de la clase ingresoproductos
+    $producto = new ingresoproductos();
 
     // Guardar el producto en la base de datos
-    if ($db->guardarProducto($name, $description, $value)) {
+    if ($producto->guardarProducto($name, $description)) {
         // El producto se guardó correctamente
         $response = array('status' => 'success');
     } else {
@@ -55,7 +56,6 @@ if ($value == 1) {
 
 // Devolver la respuesta como JSON
 echo json_encode($response);
-?>
 
 
 
