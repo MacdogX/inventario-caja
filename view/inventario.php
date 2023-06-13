@@ -107,13 +107,7 @@
         </div>
     </div>
 </div>
-<!--<input type="text" id="searchInput" onkeyup="searchProduct()">-->
-<div id="searchResults"></div>
 
-<input type="text" id="searchInput">
-
-<input type="text" id="searchQueryInput">
-<ul id="searchResults"></ul>
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -125,6 +119,15 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+<!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+                                    -->
 <script>
 function saveProduct() {
  // Obtener los valores de los campos del formulario
@@ -227,6 +230,31 @@ searchInput.addEventListener('input', function() {
   // Enviar la consulta con el nombre como parámetro
   var params = 'nombre=' + encodeURIComponent(query);
   xhr.send(params);
+});
+</script>
+<script>
+$(document).ready(function(){
+    $("#name").autocomplete({
+        source: "../autocomplete.php",
+        minLength: 2,
+        select: function(event, ui) {
+            // Obtener el valor seleccionado del campo de texto
+            var selectedlabel = ui.item.label;
+
+            // Autocompletar el campo textbox con el valor seleccionado
+            setTimeout(function(){
+                $("#name").val(selectedlabel);
+            }, 0);
+        }
+    });
+    
+    $("#name").on("autocompleteselect", function(event, ui) {
+        // Obtener el valor seleccionado del campo de texto
+        var selectedValue = ui.item.value;
+
+        // Asignar el valor seleccionado al campo textmax
+        $("#description").val(selectedValue);
+    });
 });
 </script>
 
