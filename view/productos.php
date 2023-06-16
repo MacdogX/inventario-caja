@@ -25,13 +25,14 @@
 
 <div class="container mx-auto">
             <div class="grid grid-cols-3 gap-4">
-                <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex justify-center items-center">
+                <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
                     <!-- Modal toggle -->
+                    <h2 class="text-white mb-4">Agregar productos al inventario</h2>
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
             </div>
        <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="display responsive nowrap  w-full text-sm text-left text-blue-300 dark:text-blue-100 py-6" id="example">
+                <table class="display responsive nowrap mb-12 col-12 text-base sm:text-sm md:text-base table-condensed bg-gray-50" id="example">
                     <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
                         <tr>
                             <th scope="col" class="px-6 py-3">
@@ -68,7 +69,7 @@
                             <?php echo $producto['value_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
-                                <a href="#" class="font-medium text-white hover:underline">Editar</a>
+                                <a href="#" class="font-medium  hover:underline px-6 py-4 text-center">Editar</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

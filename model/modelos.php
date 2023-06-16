@@ -13,12 +13,13 @@ class ingresoproductos
     {
         try {
             $pdo = $this->connection->conexion();
-           
-            $query = "INSERT INTO productos (name_producto, value_producto) VALUES (:name, :description)";
+            $emp_producto = 1;
+            $query = "INSERT INTO productos (name_producto, value_producto,emp_producto) VALUES (:name, :description, :emp_producto)";
     
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
+            $stmt->bindParam(':emp_producto', $emp_producto);
             $stmt->execute();
     
             return true;

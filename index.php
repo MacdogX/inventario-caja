@@ -1,3 +1,5 @@
+<?php session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,9 +48,20 @@
     <body>
         <header>
         <link rel="stylesheet" href="controller/login.css">
+        
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         </header>
         
-        <?php include 'controller/librery/librery.php';?>
+        <?php include 'controller/librery/librery.php';
+        
+        
+
+        
+        
+        
+        
+        
+        ?>
       
    
 <div class="container mx-auto px-4 flex items-center justify-center h-screen">
@@ -134,7 +147,7 @@
         </div>
     </div>
 </div>
-<script>
+    <script>
         const navbarBurger = document.querySelector('.navbar-burger');
         const menu = document.querySelector('.hidden');
 
@@ -144,36 +157,16 @@
     </script>
 
 <!-- Script para abrir y cerrar el modal -->
-<script>
-function openModal() {
-  document.getElementById("myModal").classList.remove("hidden");
-}
+  <script>
+    function openModal() {
+      document.getElementById("myModal").classList.remove("hidden");
+    }
 
-function closeModal() {
-  document.getElementById("myModal").classList.add("hidden");
-}
-</script>
+    function closeModal() {
+      document.getElementById("myModal").classList.add("hidden");
+    }
+  </script>
 
-<!--
-        <h1>Login</h1>
-  <form method="post" action="login.php">
-    <label for="correo">Correo:</label>
-    <input type="email" id="correo" name="correo" required>
-
-    <br><br>
-
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" id="contrasena" name="contrasena" required>
-
-    <br><br>
-
-   
-  </form>
-
-  <p><a href="recuperar_contrasena.php">¿Olvidaste tu contraseña?</a></p>
-
-
--->
         <footer>
         </footer>
     </body>

@@ -1,3 +1,10 @@
+<?php session_start();
+/*
+$id_nombre = $_SESSION['id_nombre'] ?? null;
+$id_rol = $_SESSION['id_rol'] ?? null;
+*/
+//echo $id_nombre;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,34 +26,38 @@
     
         <?php  include '../view/nav/nav.php'; 
         require_once '../model/guardar_producto.php';
+       
 
         // Crear una instancia de la clase Database
         $database = new Connection;
+
+        
          ?>
 <div class="container mx-auto">
     <div class="grid grid-cols-3 gap-4">
-        <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex justify-center items-center">
-            <!-- Modal toggle -->
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
-       </div>
+    <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
+    <!-- Modal toggle -->
+    <h2 class="text-white mb-4">Modulo de Ventas diarias</h2>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
+</div>
         <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
             <!-- table -->
             <div class="flex flex-col justify-center items-center">
                 <div class="-m-1.5 overflow-x-auto">
                     <div class="p-1.5 min-w-full inline-block align-middle">
                         <div class="border rounded-lg overflow-hidden dark:border-gray-700">
-                            <table id='example' class='display responsive nowrap mb-12 col-12 text-base sm:text-sm md:text-base table-condensed' style='width:100%'>
-                                <thead>
+                            <table id='example' class='display responsive nowrap mb-12 col-12 text-base sm:text-sm md:text-base table-condensed bg-gray-50 ' style='width:100%'>
+                                <thead class="bg-blue-600 text-white uppercase">
                                     <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Id</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Cantidad</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Precio</th>
-                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase ">Producto</th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase ">Acción</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Id</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Cantidad</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Precio</th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-white uppercase ">Producto</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-white uppercase ">Acción</th>
                                         
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-gray-50">
                                     <?php 
                                   
                                     include_once '../model/traerdatos.php';
@@ -68,8 +79,8 @@
                                         <th>Id</th>
                                         <th>Candidad</th>
                                         <th>Precio</th>
-                                        <th>Accion</th>
                                         <th>Producto</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
