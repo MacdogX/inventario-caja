@@ -14,6 +14,7 @@ class Usuario
         $this->connection = new Connection();
         $this->correo = $correo;
         $this->contrasena = $contrasena;
+    
     }
     
     // Getter y Setter para la propiedad "correo"
@@ -36,49 +37,35 @@ class Usuario
 
     public function autenticar()
     {
-        // Lógica para autenticar al usuario
-
-        // Verificar si el correo y la contraseña son válidos
         if ($this->validarCredenciales()) {
-            // Autenticación exitosa, iniciar sesión o redirigir al usuario a la página de inicio
-          //  echo "Inicio de sesión exitoso";
-            if($params = $this->traersession()){
-                foreach ($params as $row) {
-                    $id_rol = $row[4];
-                    $id_nombre= $row[1];
-                    $_SESSION['id_nombre']=$id_nombre;
-                    $_SESSION['id_rol'] = $id_rol;
-                }
-                header("Location: ../view/inventario.php");
-                 exit();
+            session_start();
 
-            }else{
+            $_SESSION['correo'] = $this->correo;
+            $_SESSION['nombre'] = $this->obtenerNombreUsuario();
 
-            }
-
-
-
-            
+            header("Location: ../view/inventario.php");
+            exit();
         } else {
-            // Autenticación fallida, mostrar mensaje de error o redirigir al usuario a la página de inicio de sesión con un mensaje de error
-            echo '
-            <div role="alert">
-                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Error de usuario
-                </div>
-                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    <p>Usuario o contraseña no existe </p>
-                    <a href="../index.php">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Regresar
-                    </button>
-                  </a>
-                </div>
-            </div>
-         ';
+            // Autenticación fallida, mostrar mensaje de error
+            echo "Credenciales inválidas";
         }
     }
 
+    private function obtenerNombreUsuario()
+    {
+        $pdo = $this->connection->conexion();
+        $query = "SELECT nombre FROM usuarios WHERE email = :correo";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(':correo', $this->correo);
+        $statement->execute();
+        $usuario = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario) {
+            return $usuario['nombre'];
+        } else {
+            return "";
+        }
+    }
 
     private function traersession()
         {
@@ -89,8 +76,9 @@ class Usuario
              $statement->execute();
              $params = array();
              $params = $statement->fetchAll(PDO::FETCH_ASSOC);
+         
              return $params;
-             
+        
         }
 
     private function validarCredenciales()
@@ -131,22 +119,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Autenticar al usuario
     $usuario->autenticar();
+   
 }
+
 
 class SessionManager {
     public function logout() {
         // Iniciar sesión
         session_start();
-
         // Eliminar todas las variables de sesión
         $_SESSION = array();
-
         // Destruir la sesión
         session_destroy();
-
         // Redireccionar a la página de inicio de sesión u otra página deseada
         header("Location: /project-side-inventarioycaja/index.php");
         exit();
     }
 }
+class LogoutController {
+    public function logout() {
+        session_start();
+        session_destroy();
+        header("Location: ../index.php"); // Redirige al usuario a la página de inicio de sesión
+        exit();
+    }
+}
+
+
 ?>

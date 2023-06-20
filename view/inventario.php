@@ -1,9 +1,23 @@
-<?php session_start();
-/*
-$id_nombre = $_SESSION['id_nombre'] ?? null;
-$id_rol = $_SESSION['id_rol'] ?? null;
-*/
-//echo $id_nombre;
+<?php 
+
+require_once '../model/login.php';
+
+
+session_start();
+
+if (isset($_SESSION['correo'])) {
+    $correo = $_SESSION['correo'];
+    $nombre = $_SESSION['nombre'];
+
+    echo "Bienvenido, $nombre ($correo)";
+} else {
+    echo "No has iniciado sesión";
+}
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
