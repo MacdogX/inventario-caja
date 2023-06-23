@@ -20,7 +20,7 @@ class Connection {
     public function testConnection() {
         $pdo = $this->conexion();
         if ($pdo) {
-    //     echo "Conexión exitosa a la base de datos";
+     //   echo "Conexión exitosa a la base de datos";
         } else {
           echo "Error al conectar con la base de datos";
         }
