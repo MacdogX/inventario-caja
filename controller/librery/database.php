@@ -20,21 +20,22 @@ class Connection {
     public function testConnection() {
         $pdo = $this->conexion();
         if ($pdo) {
-       //   echo "Conexión exitosa a la base de datos";
+    //     echo "Conexión exitosa a la base de datos";
         } else {
           echo "Error al conectar con la base de datos";
         }
       }
-      public function guardarProducto($nombre, $cantidad, $precio)
+      public function guardarProducto($nombre, $cantidad, $precio,$id)
 {
     try {
         $pdo = $this->conexion();
         $valorprecio = $cantidad * $precio;
-        $sql = "INSERT INTO ventaproducto (nombre, cantidad, precio) VALUES (:nombre, :cantidad, :valorprecio)";
+        $sql = "INSERT INTO ventaproducto (nombre, cantidad, precio, id_emp) VALUES (:nombre, :cantidad, :valorprecio, :id)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':cantidad', $cantidad);
-        $stmt->bindValue(':valorprecio', $valorprecio);
+        $stmt->bindParam(':valorprecio', $valorprecio);
+        $stmt->bindValue(':id', $id);
         $stmt->execute();
         $response = array(
             "status" => "success",
@@ -51,10 +52,7 @@ class Connection {
     echo json_encode($response);
 }
 
-    
   }
-
-
 
   $connection = new Connection();
   $connection->testConnection();

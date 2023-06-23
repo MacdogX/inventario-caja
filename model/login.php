@@ -1,6 +1,6 @@
 <?php
 require_once '../controller/librery/database.php';
-include '../controller/librery/librery.php';
+
 
 class Usuario
 
@@ -8,6 +8,7 @@ class Usuario
     private $connection;
     private $correo;
     private $contrasena;
+   
 
     public function __construct($correo, $contrasena)
     {
@@ -38,12 +39,15 @@ class Usuario
     public function autenticar()
     {
         if ($this->validarCredenciales()) {
+            
             session_start();
 
             $_SESSION['correo'] = $this->correo;
-            $_SESSION['nombre'] = $this->obtenerNombreUsuario();
+            $usuario = $this->obtenerNombreUsuario();
+            $_SESSION['nombre'] = $usuario['nombre'];
+            $_SESSION['id'] = $usuario['id'];
 
-            header("Location: ../view/inventario.php");
+            echo '<script>window.location.href = "../view/inventario.php";</script>';
             exit();
         } else {
             // Autenticación fallida, mostrar mensaje de error
@@ -54,14 +58,14 @@ class Usuario
     private function obtenerNombreUsuario()
     {
         $pdo = $this->connection->conexion();
-        $query = "SELECT nombre FROM usuarios WHERE email = :correo";
+        $query = "SELECT nombre,id FROM usuarios WHERE email = :correo";
         $statement = $pdo->prepare($query);
         $statement->bindParam(':correo', $this->correo);
         $statement->execute();
         $usuario = $statement->fetch(PDO::FETCH_ASSOC);
 
         if ($usuario) {
-            return $usuario['nombre'];
+            return $usuario;
         } else {
             return "";
         }
@@ -108,6 +112,28 @@ class Usuario
 
 }
 
+class SessionManager {
+    public function logout() {
+         // Iniciar el almacenamiento en búfer de salida
+         ob_start();
+
+         // Iniciar sesión
+ 
+         // Eliminar todas las variables de sesión
+         $_SESSION = array();
+         // Destruir la sesión
+         session_destroy();
+         
+         // Detener el almacenamiento en búfer y enviar la salida al navegador
+         ob_end_flush();
+ 
+         // Redireccionar a la página de inicio de sesión u otra página deseada
+
+         echo '<script>window.location.href = "../index.php";</script>';
+        exit();
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
     $correo = $_POST['correo'];
@@ -123,27 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-class SessionManager {
-    public function logout() {
-        // Iniciar sesión
-        session_start();
-        // Eliminar todas las variables de sesión
-        $_SESSION = array();
-        // Destruir la sesión
-        session_destroy();
-        // Redireccionar a la página de inicio de sesión u otra página deseada
-        header("Location: /project-side-inventarioycaja/index.php");
-        exit();
-    }
-}
-class LogoutController {
-    public function logout() {
-        session_start();
-        session_destroy();
-        header("Location: ../index.php"); // Redirige al usuario a la página de inicio de sesión
-        exit();
-    }
-}
+
+
 
 
 ?>

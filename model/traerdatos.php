@@ -3,27 +3,27 @@
 require_once '../controller/librery/database.php';
 class datosproductos{
 
-    private $correo;
+    private $id;
     private $connection;
 
     public function __construct() {
         $this->connection = new Connection();
         
     }
-    public function getCorreo() {
-        return $this->correo;
+    public function getId() {
+        return $this->id;
     }
 
-    public function setCorreo($correo) {
-        $this->correo = $correo;
+    public function setid($id) {
+        $this->id = $id;
     }
 
-    public function obtenerProductos() {
+    public function obtenerProductos($id) {
         try{
         $pdo = $this->connection->conexion();
-        $sql = "SELECT * FROM ventaproducto WHERE email = :correo ORDER BY id DESC";
+        $sql = "SELECT * FROM ventaproducto WHERE id_emp = :id ORDER BY id DESC";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':correo', $this->correo);
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,12 +34,13 @@ class datosproductos{
     }
     }
 
-    public function obternerproducto(){
+    public function obternerproducto($id){
 
         try {
             $pdo = $this->connection->conexion();
-            $sql = "SELECT * FROM productos order by id desc";
+            $sql = "SELECT * FROM productos where emp_producto = :id order by id desc";
             $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $id);
             $stmt->execute();
             $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

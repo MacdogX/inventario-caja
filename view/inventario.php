@@ -1,23 +1,15 @@
 <?php 
-
 require_once '../model/login.php';
-
-
 session_start();
-
 if (isset($_SESSION['correo'])) {
     $correo = $_SESSION['correo'];
     $nombre = $_SESSION['nombre'];
+    $id = $_SESSION['id'];
 
-    echo "Bienvenido, $nombre ($correo)";
-} else {
-    echo "No has iniciado sesión";
+ //  echo "Bienvenido, $nombre ($correo)($id)";
+}  else {
+    header("Location: ../index.php");
 }
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,19 +25,15 @@ if (isset($_SESSION['correo'])) {
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 </head>
 <body>
     
         <?php  include '../view/nav/nav.php'; 
         require_once '../model/guardar_producto.php';
-       
-
         // Crear una instancia de la clase Database
         $database = new Connection;
-
-        
          ?>
 <div class="container mx-auto">
     <div class="grid grid-cols-3 gap-4">
@@ -76,7 +64,8 @@ if (isset($_SESSION['correo'])) {
                                   
                                     include_once '../model/traerdatos.php';
                                     $datosProductos = new datosproductos();
-                                    $productos = $datosProductos->obtenerProductos();
+                                     
+                                    $productos = $datosProductos->obtenerProductos($id);
                                     foreach ($productos as $producto): ?>
                                     <tr>
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['id']; ?></td>
@@ -124,7 +113,7 @@ if (isset($_SESSION['correo'])) {
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
                 </div>
                 <div class="flex justify-end">
-                
+                <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
                     <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
                 </div>
@@ -141,30 +130,25 @@ if (isset($_SESSION['correo'])) {
 <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
-<!--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-
-                                    -->
 <script>
 function saveProduct() {
  // Obtener los valores de los campos del formulario
  var name = document.getElementById('name').value;
     var price = document.getElementById('price').value;
     var description = document.getElementById('description').value;
-
+    var usuariocode = document.getElementById('usuariocode').value;
     // Crear un objeto FormData para enviar los datos del formulario
     var formData = new FormData();
     formData.append('name', name);
     formData.append('price', price);
     formData.append('description', description);
+    formData.append('usuariocode', usuariocode);
 
     // Crear y configurar la petición AJAX
     var xhr = new XMLHttpRequest();
@@ -177,11 +161,13 @@ function saveProduct() {
             if (response.status === 'success') {
                 console.log('Producto guardado correctamente');
                 // Cerrar el modal y restablecer los campos
-                closeModal();
+             
                 document.getElementById('name').value = '';
                 document.getElementById('price').value = '';
                 document.getElementById('description').value = '';
-                window.location.reload()
+                document.getElementById('usuariocode').value = '';
+                window.location.reload();
+                closeModal();
                
             } else {
                 console.error('Error al guardar el producto: ' + response.message);
@@ -210,6 +196,7 @@ function saveProduct() {
 </script>
 
 <script>
+
 var searchInput = document.getElementById('searchInput');
 
 // Escuchar el evento 'input' en el input de búsqueda
@@ -234,7 +221,6 @@ searchInput.addEventListener('input', function() {
         // Mostrar la información de búsqueda en el input
         var searchQueryInput = document.getElementById('searchQueryInput');
         searchQueryInput.value = 'Resultados para: ' + query;
-
         // Mostrar los resultados en una lista
         var resultList = document.getElementById('searchResults');
         resultList.innerHTML = '';
@@ -251,12 +237,12 @@ searchInput.addEventListener('input', function() {
       }
     }
   };
-
   // Enviar la consulta con el nombre como parámetro
   var params = 'nombre=' + encodeURIComponent(query);
   xhr.send(params);
 });
 </script>
+
 <script>
 $(document).ready(function(){
     $("#name").autocomplete({
@@ -279,11 +265,8 @@ $(document).ready(function(){
 
         // Asignar el valor seleccionado al campo textmax
         $("#description").val(selectedValue);
-    });
+      });
 });
 </script>
-
-
-
 </body>
 </html>

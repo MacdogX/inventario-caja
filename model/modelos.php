@@ -9,17 +9,17 @@ class ingresoproductos
         $this->connection = new Connection();
     }
     
-    public function guardarProducto($name, $description)
+    public function guardarProducto($name, $description, $id)
     {
         try {
             $pdo = $this->connection->conexion();
-            $emp_producto = 1;
+        
             $query = "INSERT INTO productos (name_producto, value_producto,emp_producto) VALUES (:name, :description, :emp_producto)";
     
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':emp_producto', $emp_producto);
+            $stmt->bindParam(':emp_producto', $id);
             $stmt->execute();
     
             return true;
@@ -38,12 +38,13 @@ if ($value == 1) {
     // Obtener los otros valores enviados mediante la solicitud POST
     $name = $_POST['name'];
     $description = $_POST['description'];
+    $id = $_POST['usuariocode'];
 //echo "imprimir " .$name .$description;
     // Crear una instancia de la clase ingresoproductos
     $producto = new ingresoproductos();
 
     // Guardar el producto en la base de datos
-    if ($producto->guardarProducto($name, $description)) {
+    if ($producto->guardarProducto($name, $description, $id)) {
         // El producto se guardó correctamente
         $response = array('status' => 'success');
     } else {

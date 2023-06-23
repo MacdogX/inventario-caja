@@ -1,3 +1,16 @@
+<?php
+require_once '../model/login.php';
+session_start();
+if (isset($_SESSION['correo'])) {
+    $correo = $_SESSION['correo'];
+    $nombre = $_SESSION['nombre'];
+    $id = $_SESSION['id'];
+
+ //  echo "Bienvenido, $nombre ($correo)($id)";
+}  else {
+    header("Location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +67,7 @@
                    <?php 
                         include_once '../model/traerdatos.php';
                         $datosProductos = new datosproductos();
-                        $productos = $datosProductos->obternerproducto();
+                        $productos = $datosProductos->obternerproducto($id);
                         foreach ($productos as $producto):
                         ?>
                         <tr class="bg-blue-300 border-b border-blue-400">
@@ -104,6 +117,7 @@
                 </div>
                 <div class="flex justify-end">
                     <input type="hidden" value="1" id="value"" name="value">
+                    <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
                     <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
                 </div>
@@ -142,12 +156,14 @@
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var value = document.getElementById('value').value;
+    var usuariocode = document.getElementById('usuariocode').value;
 
     // Crear un objeto FormData para enviar los datos del formulario
     var formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('value', value);
+    formData.append('usuariocode', usuariocode);
 
     // Crear y configurar la petición AJAX
     var xhr = new XMLHttpRequest();
@@ -163,6 +179,7 @@
           closeModal();
           document.getElementById('name').value = '';
           document.getElementById('description').value = '';
+          document.getElementById('usuariocode').value = '';
           window.location.reload();
         } else {
           console.error('Error al guardar el producto: ' + response.message);
