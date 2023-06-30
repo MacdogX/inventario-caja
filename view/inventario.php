@@ -29,7 +29,6 @@ if (isset($_SESSION['correo'])) {
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 </head>
 <body>
-    
         <?php  include '../view/nav/nav.php'; 
         require_once '../model/guardar_producto.php';
         // Crear una instancia de la clase Database
@@ -122,6 +121,7 @@ if (isset($_SESSION['correo'])) {
     </div>
 </div>
 
+
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -132,11 +132,10 @@ if (isset($_SESSION['correo'])) {
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
 <script>
+
 function saveProduct() {
  // Obtener los valores de los campos del formulario
  var name = document.getElementById('name').value;
@@ -196,57 +195,9 @@ function saveProduct() {
 </script>
 
 <script>
-
-var searchInput = document.getElementById('searchInput');
-
-// Escuchar el evento 'input' en el input de búsqueda
-searchInput.addEventListener('input', function() {
-  // Obtener el valor del input
-  var query = searchInput.value;
-
-  // Realizar la consulta Ajax
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '../model/buscar_productos.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      // Parsear la respuesta JSON
-      var response = JSON.parse(xhr.responseText);
-
-      // Verificar el estado de la respuesta
-      if (response.status === 'success') {
-        // Obtener los datos de la respuesta
-        var results = response.data;
-
-        // Mostrar la información de búsqueda en el input
-        var searchQueryInput = document.getElementById('searchQueryInput');
-        searchQueryInput.value = 'Resultados para: ' + query;
-        // Mostrar los resultados en una lista
-        var resultList = document.getElementById('searchResults');
-        resultList.innerHTML = '';
-
-        for (var i = 0; i < results.length; i++) {
-          var result = results[i];
-          var listItem = document.createElement('li');
-          listItem.textContent = result.nombre + ' - ' + result.descripcion;
-          resultList.appendChild(listItem);
-        }
-      } else {
-        // Mostrar un mensaje de error
-        console.error(response.message);
-      }
-    }
-  };
-  // Enviar la consulta con el nombre como parámetro
-  var params = 'nombre=' + encodeURIComponent(query);
-  xhr.send(params);
-});
-</script>
-
-<script>
 $(document).ready(function(){
     $("#name").autocomplete({
-        source: "../autocomplete.php",
+        source: "../model/autocomplete.php",
         minLength: 2,
         select: function(event, ui) {
             // Obtener el valor seleccionado del campo de texto

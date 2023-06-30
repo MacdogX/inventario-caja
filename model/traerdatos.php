@@ -6,6 +6,7 @@ class datosproductos{
 
     private $id;
     private $connection;
+ 
 
     public function __construct() {
         $this->connection = new Connection();
@@ -65,12 +66,14 @@ class VentasStatistics {
         $this->connection = $connection;
     }
 
-    public function obtenerVentasPorNombre() {
+    public function obtenerVentasPorNombre($id) {
         try {
             // Consulta SQL para obtener los datos de ventas por nombre
             $pdo = $this->connection->conexion();
-            $sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
+            $sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto where id_emp = :id GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
             $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
             
             // Ejecutar la consulta
             $stmt->execute();
@@ -94,6 +97,59 @@ class VentasStatistics {
             echo "Error en la consulta: " . $e->getMessage();
         }
     }
+}
+
+
+class Filtrarestadistica {
+    private $id;
+    public $inicio;
+    public $final;
+    private $connection;
+    public function __construct($connection) {
+        $this->connection = $connection;
+    }
+
+
+    public function getInicio() {
+        return $this->inicio;
+    }
+
+    public function setInicio($inicio) {
+        $this->id = $inicio;
+    }
+
+    public function getFinal() {
+        return $this->final;
+    }
+
+    public function setid($final) {
+        $this->final = $final;
+    }
+
+
+    public function filtrarfecha($inicio,$final){
+
+        $results = [];
+        $pdo = $this->connection->conexion();
+        $query = "SELECT * FROM productos WHERE fecha_ingreso between :inicio and :final and name_producto LIKE :nombre";
+        $stmt = $pdo->prepare($query);
+       // $stmt->bindParam(':nombre', "%$nombre%", PDO::PARAM_STR);
+        $stmt->bindParam(':inicio', $inicio);
+        $stmt->bindParam(':final', $final);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = [
+              'nombre' => $row['name_producto'],
+              'descripcion' => $row['id']
+            ];
+          }
+      
+          return $results;
+    
+    }
+
+
 }
 
 ?>

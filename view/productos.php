@@ -95,7 +95,7 @@ if (isset($_SESSION['correo'])) {
     </div>
     
 
-    
+     
     <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
@@ -109,7 +109,7 @@ if (isset($_SESSION['correo'])) {
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="price" name="price" type="number" step="0.01" placeholder="Ingrese el precio del producto" required>
                 </div>
--->
+                -->
 
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio del producto</label>

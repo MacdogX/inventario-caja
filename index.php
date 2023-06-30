@@ -128,22 +128,27 @@
      <footer>
      </footer>
 
-    <script>
+     <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
         const navbarBurger = document.querySelector('.navbar-burger');
         const menu = document.querySelector('.hidden');
 
-        navbarBurger.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-       /* Script para abrir y cerrar el modal */
-              function openModal() {
-                document.getElementById("myModal").classList.remove("hidden");
-              }
+        if (navbarBurger) {
+            navbarBurger.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
 
-              function closeModal() {
-                document.getElementById("myModal").classList.add("hidden");
-              }
-    </script>
+        /* Script para abrir y cerrar el modal */
+        function openModal() {
+            document.getElementById("myModal").classList.remove("hidden");
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").classList.add("hidden");
+        }
+    });
+</script>
 
     </body>
 </html>
