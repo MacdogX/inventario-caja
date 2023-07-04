@@ -101,7 +101,7 @@ if (isset($_SESSION['correo'])) {
             <form id="productForm" onsubmit="saveProduct(); return false;">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>                    
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" oninput="convertirAMayusculas()" required>                    
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
@@ -218,6 +218,10 @@ $(document).ready(function(){
         $("#description").val(selectedValue);
       });
 });
+function convertirAMayusculas() {
+            var input = document.getElementById('name');
+            input.value = input.value.toUpperCase();
+        }
 </script>
 </body>
 </html>

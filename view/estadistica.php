@@ -32,17 +32,43 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        @media only screen and (max-width: 600px) {
-            #chartContainer {
-               padding-bottom: 100% !important;
-            }
-        }
-        #informacion {
-            display: none;
-            }
-        #chartContainer {
-            display: none;
-            }
+/* Estilos para pantallas de 601 píxeles en adelante */
+@media only screen and (min-width: 601px) {
+    /* Estilos para el contenedor del gráfico */
+    #chartContainer {
+        padding-bottom: 60% !important;
+ 
+    }
+
+    /* Estilos para el gráfico de barras */
+    canvas#barChart {
+        height: 350px !important;
+    }
+
+    /* Estilos para el elemento con id "informacion" */
+    #informacion {
+        display: block;
+    }
+}
+
+/* Estilos para pantallas de 600 píxeles o menos */
+@media only screen and (max-width: 600px) {
+    /* Estilos para el contenedor del gráfico */
+    #chartContainer {
+        padding-bottom: 100% !important;
+  
+    }
+
+    /* Estilos para el gráfico de barras */
+    canvas#barChart {
+        height: 400px !important;
+    }
+
+    /* Estilos para el elemento con id "informacion" */
+    #informacion {
+        display: none;
+    }
+}  
         </style>
 
 </head>
@@ -73,21 +99,42 @@
         </div>
 
 
+
 <div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="informacion">
 
+<div>
+    
+    <?php
+   include '../model/traerdatos.php';
+   try {
+    $ventatotal = new VentaTotal($connection);
+    $ventatotaldia = $ventatotal->obtenerValorTotal($id);
+
+    $row = $ventatotaldia->fetch(PDO::FETCH_ASSOC);
+    $gananciaTotal = $row['ganancia_total'];
+    echo "<h2 class='px-4 py-2 border border-gray-300 text-center font-bold'> Venta total del dia :  $gananciaTotal</h2> " ;
+    } catch (PDOException $e) {
+        die("Error al obtener los datos: " . $e->getMessage());
+    }
+    ?>
+</div>
  
-     <div class="text-black items-center prueba">
+     <div class="text-black items-center prueba pb-10">
         <h2 class="text-white mb-4 text-center mx-auto">Indicador de ganancias diarias</h2>
+
+
+
         <?php
-            include '../model/traerdatos.php';
+            
             $ventasStats = new VentasStatistics($connection);
             // Obtener las ventas por nombre utilizando el método obtenerVentasPorNombre()
             $ventasPorNombre = $ventasStats->obtenerVentasPorNombre($id);
             // Acceder a los resultados obtenidos
             $nombres = $ventasPorNombre['nombres'];
             $ganancias = $ventasPorNombre['ganancias'];
+
         ?>    
-                         <table class="table-auto w-full border border-gray-300">
+                         <table class="table-auto w-full border border-gray-300 text-center">
                                 <thead>
                                     <tr>
                                         <th class="px-4 py-2 border border-gray-300">Nombre del producto</th>
@@ -104,77 +151,80 @@
                                 </tbody>
                             </table>
             </div>
-        </div>
+
+            <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias dia</h2>
+            <div id="chartContainer" class="pt-6" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+                   <canvas   id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+            </div>
+</div>
 
 
 
     </div>
+
 
 <div class=" ">
     
 
-    <div id="chartContainer" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
-                    <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-    </div>
+ 
 
 </div>
 
+
 </div>
+
 
 <script>
- // Obtener los datos de PHP y convertirlos a formato JavaScript
- var nombres = <?php echo json_encode($nombres); ?>;
-  var ganancias = <?php echo json_encode($ganancias); ?>;
-   // Crear el contexto del gráfico
-    var ctx = document.getElementById('barChart').getContext('2d');
-
-    // Crear el gráfico de barras verticales utilizando Chart.js
-   var chart = new Chart(ctx, {
-   type: 'bar',
-     data: {
-  labels: nombres,
-  datasets: [{
-          label: 'Ganancias',
-                        data: ganancias,
-                 backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color de las barras
-                             borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
-                         borderWidth: 1 // Ancho del borde de las barras
-                        }]
-                 },
-        options: {
-    responsive: true,
-    scales: {
- y: {
-    beginAtZero: true // Comenzar el eje y desde cero
-}
-}
-}
-});
+        // Obtener los datos de PHP y convertirlos a formato JavaScript
+        var nombres = <?php echo json_encode($nombres); ?>;
+        var ganancias = <?php echo json_encode($ganancias); ?>;
+        // Crear el contexto del gráfico
+        var ctx = document.getElementById('barChart').getContext('2d');
+        // Crear el gráfico de barras verticales utilizando Chart.js
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: nombres,
+                datasets: [{
+                    label: 'Ganancias',
+                    data: ganancias,
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color de las barras
+                    borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
+                    borderWidth: 1 // Ancho del borde de las barras
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true // Comenzar el eje y desde cero
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            // Cambiar el tamaño de la letra en la leyenda
+                            fontSize: 24
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: '', // Título del gráfico
+                        fontSize: 50 // Tamaño de la letra del título
+                    }
+                }
+            }
+        });
 </script>
-
 
 <script>
         $(document).ready(function() {
         $('#botonInformacion').click(function() {
             $('#informacion').toggle();
-        
         });
-        });
-    
-  </script>
+        });    
+</script>
 
-
-<script>
-        $(document).ready(function() {
-        $('#botonInformacion').click(function() {
-            $('#chartContainer').toggle();
-        
-        });
-        });
-    
-  </script>
-
-  
 
 </body>
 </html>

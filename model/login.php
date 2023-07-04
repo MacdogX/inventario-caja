@@ -51,7 +51,17 @@ class Usuario
             exit();
         } else {
             // Autenticación fallida, mostrar mensaje de error
-            echo "Credenciales inválidas";
+          echo'<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+          echo "<div></div>";
+          echo "<script>
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Problema con su usuario y contraseña'
+            }).then(function() {
+              window.location.href = '../index.php'; // Reemplaza 'nueva_pagina.php' con la URL de la página a la que deseas redirigir
+            });
+          </script>";
         }
     }
 
