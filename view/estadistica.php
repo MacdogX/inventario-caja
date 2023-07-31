@@ -34,20 +34,18 @@
     <style>
 /* Estilos para pantallas de 601 píxeles en adelante */
 @media only screen and (min-width: 601px) {
-    /* Estilos para el contenedor del gráfico */
-    #chartContainer {
-        padding-bottom: 60% !important;
- 
+   /* Estilos para el contenedor del gráfico */
+   #chartContainer {
+    padding-bottom: 100% !important;
     }
-
     /* Estilos para el gráfico de barras */
     canvas#barChart {
-        height: 350px !important;
+        height: 550px !important;
+        
     }
-
     /* Estilos para el elemento con id "informacion" */
     #informacion {
-        display: block;
+        display: none;
     }
 }
 
@@ -56,14 +54,11 @@
     /* Estilos para el contenedor del gráfico */
     #chartContainer {
         padding-bottom: 100% !important;
-  
     }
-
     /* Estilos para el gráfico de barras */
     canvas#barChart {
-        height: 400px !important;
+        height: 600px !important;
     }
-
     /* Estilos para el elemento con id "informacion" */
     #informacion {
         display: none;
@@ -78,8 +73,8 @@
 
     <?php include '../view/nav/nav.php'; ?>
 
-
     <div class="container mx-auto">
+
     <div class="grid grid-cols-3 gap-4">
 
         <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
@@ -100,121 +95,130 @@
 
 
 
-<div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="informacion">
+    <div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="informacion">
 
-<div>
+        <div>
     
-    <?php
-   include '../model/traerdatos.php';
-   try {
-    $ventatotal = new VentaTotal($connection);
-    $ventatotaldia = $ventatotal->obtenerValorTotal($id);
+                <?php include '../model/traerdatos.php';
+                    try {
+                        $ventatotal = new VentaTotal($connection);
+                        $ventatotaldia = $ventatotal->obtenerValorTotal($id);
 
-    $row = $ventatotaldia->fetch(PDO::FETCH_ASSOC);
-    $gananciaTotal = $row['ganancia_total'];
-    echo "<h2 class='px-4 py-2 border border-gray-300 text-center font-bold'> Venta total del dia :  $gananciaTotal</h2> " ;
-    } catch (PDOException $e) {
-        die("Error al obtener los datos: " . $e->getMessage());
-    }
-    ?>
-</div>
- 
-     <div class="text-black items-center prueba pb-10">
-        <h2 class="text-white mb-4 text-center mx-auto">Indicador de ganancias diarias</h2>
-
-
-
-        <?php
-            
-            $ventasStats = new VentasStatistics($connection);
-            // Obtener las ventas por nombre utilizando el método obtenerVentasPorNombre()
-            $ventasPorNombre = $ventasStats->obtenerVentasPorNombre($id);
-            // Acceder a los resultados obtenidos
-            $nombres = $ventasPorNombre['nombres'];
-            $ganancias = $ventasPorNombre['ganancias'];
-
-        ?>    
-                         <table class="table-auto w-full border border-gray-300 text-center">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-2 border border-gray-300">Nombre del producto</th>
-                                        <th class="px-4 py-2 border border-gray-300">Ganancia</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($nombres as $key => $nombre): ?>
-                                        <tr>
-                                            <td class="px-4 py-2 border border-gray-300"><?php echo $nombre; ?></td>
-                                            <td class="px-4 py-2 border border-gray-300"><?php echo number_format($ganancias[$key], 0, ',', '.'); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-            </div>
-
-            <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias dia</h2>
-            <div id="chartContainer" class="pt-6" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
-                   <canvas   id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-            </div>
-</div>
-
-
-
+                        $row = $ventatotaldia->fetch(PDO::FETCH_ASSOC);
+                        $gananciaTotal = $row['ganancia_total'];
+                        echo "<h2 class='px-4 py-2 border border-gray-300 text-center font-bold'> Venta total del dia :  $gananciaTotal</h2> " ;
+                        } catch (PDOException $e) {
+                            die("Error al obtener los datos: " . $e->getMessage());
+                        }
+                ?>
+        </div>
+    <div class="lg:flex"> 
+        <div class="text-black items-center prueba pb-10 w-full lg:w-1/2 p-4">
+          <h2 class="text-white mb-4 text-center mx-auto">Indicador de ganancias diarias</h2>
+            <?php 
+                $ventasStats = new VentasStatistics($connection);
+                // Obtener las ventas por nombre utilizando el método obtenerVentasPorNombre()
+                $ventasPorNombre = $ventasStats->obtenerVentasPorNombre($id);
+                // Acceder a los resultados obtenidos
+                $nombres = $ventasPorNombre['nombres'];
+                $ganancias = $ventasPorNombre['ganancias'];
+            ?>    
+            <table class="table-auto w-full border border-gray-300 text-center">
+                    <thead>
+                       <tr>
+                        <th class="px-4 py-2 border border-gray-300">Nombre del producto</th>
+                         <th class="px-4 py-2 border border-gray-300">Ganancia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($nombres as $key => $nombre): ?>
+                            <tr>
+                                <td class="px-4 py-2 border border-gray-300"><?php echo $nombre; ?></td>
+                                <td class="px-4 py-2 border border-gray-300"><?php echo number_format($ganancias[$key], 0, ',', '.'); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+            </table>
     </div>
 
+        <div class="w-full lg:w-1/2 p-4">   
+            <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
+            <div id="chartContainer" class="pt-6" style="position: relative; width: 100%; height: 400px;">
+            <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+            </div>
+  </div>   
+        </div>
+   </div>
 
-<div class=" ">
-    
 
- 
+
 
 </div>
 
 
-</div>
 
+
+
+</div>
 
 <script>
-        // Obtener los datos de PHP y convertirlos a formato JavaScript
-        var nombres = <?php echo json_encode($nombres); ?>;
-        var ganancias = <?php echo json_encode($ganancias); ?>;
-        // Crear el contexto del gráfico
-        var ctx = document.getElementById('barChart').getContext('2d');
-        // Crear el gráfico de barras verticales utilizando Chart.js
-        var chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: nombres,
-                datasets: [{
-                    label: 'Ganancias',
-                    data: ganancias,
-                    backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color de las barras
-                    borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
-                    borderWidth: 1 // Ancho del borde de las barras
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true // Comenzar el eje y desde cero
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            // Cambiar el tamaño de la letra en la leyenda
-                            fontSize: 24
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: '', // Título del gráfico
-                        fontSize: 50 // Tamaño de la letra del título
-                    }
-                }
+  var nombres = <?php echo json_encode($nombres); ?>;
+  var ganancias = <?php echo json_encode($ganancias); ?>;
+
+  // Crear el contexto del gráfico
+  var ctx = document.getElementById('barChart').getContext('2d');
+  // Crear el gráfico de barras verticales utilizando Chart.js
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: nombres,
+      datasets: [{
+        label: 'Ganancias',
+        data: ganancias,
+        backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color de las barras
+        borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
+        borderWidth: 1 // Ancho del borde de las barras
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          beginAtZero: true, // Comenzar el eje x desde cero
+          ticks: {
+            font: {
+              size: 26 // Ajustar el tamaño de la fuente en el eje x
+
             }
-        });
+          }
+        },
+        y: {
+          beginAtZero: true, // Comenzar el eje y desde cero
+          ticks: {
+            font: {
+              size: 16 // Ajustar el tamaño de la fuente en el eje y
+            },
+            callback: function(value, index, values) {
+              return value.toLocaleString('en-US', {minimumFractionDigits: 0}); // Mostrar números con separadores de miles
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false // Ocultar la leyenda
+        },
+        title: {
+          display: true,
+          text: '', // Título del gráfico
+          fontSize: 8 // Tamaño de la letra del título
+        }
+      },
+      // Ajusta el ancho de las barras
+      barPercentage: 0.8, // Controla el ancho de las barras
+      categoryPercentage: 0.8 // Controla el espacio entre las barras
+    }
+  });
 </script>
 
 <script>
