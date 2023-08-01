@@ -47,6 +47,9 @@
     #informacion {
         display: none;
     }
+    #filtrodata{
+        display: none;
+    }
 }
 
 /* Estilos para pantallas de 600 píxeles o menos */
@@ -61,6 +64,9 @@
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
+        display: none;
+    }
+    #filtrodata{
         display: none;
     }
 }  
@@ -88,7 +94,7 @@
                     <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded"   id="botonInformacion"  >Informacion de venta de Hoy</button>
                 </div>
                 <div>
-                    <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded">Informacion de venta por Fecha</button>
+                    <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded" id="botonfiltrodata">Informacion de venta por Fecha</button>
                 </div>
             </div>
         </div>
@@ -122,6 +128,19 @@
                 // Acceder a los resultados obtenidos
                 $nombres = $ventasPorNombre['nombres'];
                 $ganancias = $ventasPorNombre['ganancias'];
+                $colores = array(
+                    'rgba(54, 162, 235, 0.5)',   // Azul claro
+                    'rgba(255, 206, 86, 0.5)',   // Amarillo claro
+                    'rgba(75, 192, 192, 0.5)',   // Verde claro
+                    'rgba(153, 102, 255, 0.5)',  // Violeta claro
+                    'rgba(255, 159, 64, 0.5)',   // Naranja claro
+                    'rgba(255, 215, 64, 0.5)',   // Oro claro
+                    'rgba(144, 238, 144, 0.5)',  // Verde bosque claro
+                    'rgba(0, 191, 255, 0.5)',    // Azul cielo claro
+                    'rgba(255, 182, 193, 0.5)',   // Rosa claro
+                    'rgba(255, 99, 132, 0.5)'  // Rojo claro
+                    // Puedes agregar más colores si lo deseas
+                  );
             ?>    
             <table class="table-auto w-full border border-gray-300 text-center">
                     <thead>
@@ -133,8 +152,8 @@
                     <tbody>
                         <?php foreach ($nombres as $key => $nombre): ?>
                             <tr>
-                                <td class="px-4 py-2 border border-gray-300"><?php echo $nombre; ?></td>
-                                <td class="px-4 py-2 border border-gray-300"><?php echo number_format($ganancias[$key], 0, ',', '.'); ?></td>
+                            <td class="px-4 py-2 border border-gray-300" style="background-color: <?php echo $colores[$key % count($colores)]; ?>"><?php echo $nombre; ?></td>
+                          <td class="px-4 py-2 border border-gray-300"><?php echo'$ '; echo number_format($ganancias[$key], 0, ',', '.'); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -151,7 +170,24 @@
    </div>
 
 
+<div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="filtrodata">
 
+<div class="flex justify-center items-start p-10 px-4 py-2 border border-gray-300">
+  <form id="consultaForm" class="flex flex-wrap items-center gap-4 md:flex-row flex-col">
+    <label for="fechaInicio" class="text-gray-700">Fecha de inicio:</label>
+    <input type="date" id="fechaInicio" name="fechaInicio" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+
+    <label for="fechaFin" class="text-gray-700">Fecha de fin:</label>
+    <input type="date" id="fechaFin" name="fechaFin" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+
+    <button type="submit" id="btnConsultar" class="h-10 px-5 py-2 text-white bg-indigo-700 rounded-lg transition-colors duration-150 shadow-md focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hover:bg-indigo-800">Consultar</button>
+  </form>
+</div>
+<div id="resultado">
+        <!-- Aquí se mostrará la tabla con los productos -->
+    </div> 
+
+</div>
 
 </div>
 
@@ -160,13 +196,31 @@
 
 
 </div>
-
+<!-- Script del gráfico -->
 <script>
+  // Obtener los datos de PHP y convertirlos a formato JavaScript
   var nombres = <?php echo json_encode($nombres); ?>;
   var ganancias = <?php echo json_encode($ganancias); ?>;
 
+// Define un array de colores para cada barra
+var colores = [
+
+  'rgba(54, 162, 235, 0.5)',   // Azul claro
+  'rgba(255, 206, 86, 0.5)',   // Amarillo claro
+  'rgba(75, 192, 192, 0.5)',   // Verde claro
+  'rgba(153, 102, 255, 0.5)',  // Violeta claro
+  'rgba(255, 159, 64, 0.5)',   // Naranja claro
+  'rgba(255, 215, 64, 0.5)',   // Oro claro
+  'rgba(144, 238, 144, 0.5)',  // Verde bosque claro
+  'rgba(0, 191, 255, 0.5)',    // Azul cielo claro
+  'rgba(255, 182, 193, 0.5)',   // Rosa claro
+  'rgba(255, 99, 132, 0.5)'  // Rojo claro
+  // Puedes agregar más colores si lo deseas
+];
+
   // Crear el contexto del gráfico
   var ctx = document.getElementById('barChart').getContext('2d');
+
   // Crear el gráfico de barras verticales utilizando Chart.js
   var chart = new Chart(ctx, {
     type: 'bar',
@@ -175,9 +229,10 @@
       datasets: [{
         label: 'Ganancias',
         data: ganancias,
-        backgroundColor: 'rgba(0, 123, 255, 0.5)', // Color de las barras
+        backgroundColor: colores, // Color de las barras
         borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
-        borderWidth: 1 // Ancho del borde de las barras
+        borderWidth: 1, // Ancho del borde de las barras
+        indexLabelFontSize: 20
       }]
     },
     options: {
@@ -187,16 +242,19 @@
           beginAtZero: true, // Comenzar el eje x desde cero
           ticks: {
             font: {
-              size: 26 // Ajustar el tamaño de la fuente en el eje x
-
-            }
+              size: 16, // Ajustar el tamaño de la fuente en el eje x
+              family: 'Arial, sans-serif', // Cambiar el tipo de fuente
+              weight: 'bold' // Establecer la fuente en negrita
+            },
+            maxRotation: 80, // Rotar las etiquetas en un ángulo de 45 grados
+            minRotation: 80 // Rotar las etiquetas en un ángulo de 45 grados
           }
         },
         y: {
           beginAtZero: true, // Comenzar el eje y desde cero
           ticks: {
             font: {
-              size: 16 // Ajustar el tamaño de la fuente en el eje y
+              size: 18 // Ajustar el tamaño de la fuente en el eje y
             },
             callback: function(value, index, values) {
               return value.toLocaleString('en-US', {minimumFractionDigits: 0}); // Mostrar números con separadores de miles
@@ -211,12 +269,26 @@
         title: {
           display: true,
           text: '', // Título del gráfico
-          fontSize: 8 // Tamaño de la letra del título
+          fontSize: 16 // Tamaño de la letra del título
         }
       },
       // Ajusta el ancho de las barras
       barPercentage: 0.8, // Controla el ancho de las barras
-      categoryPercentage: 0.8 // Controla el espacio entre las barras
+      categoryPercentage: 0.8, // Controla el espacio entre las barras
+      // Ajustes para el cuadro de información al pasar el mouse sobre las barras
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+        titleFontSize: 18, // Tamaño de la fuente del título del cuadro
+        bodyFontSize: 18, // Tamaño de la fuente del contenido del cuadro
+        bodySpacing: 8, // Espaciado entre líneas en el cuadro
+        padding: 12, // Padding del cuadro
+        displayColors: false // No mostrar los cuadros de color de la leyenda
+      }
     }
   });
 </script>
@@ -226,8 +298,73 @@
         $('#botonInformacion').click(function() {
             $('#informacion').toggle();
         });
-        });    
+        });   
+        $(document).ready(function() {
+        $('#botonfiltrodata').click(function() {
+            $('#filtrodata').toggle();
+        });
+        });   
 </script>
+<script>
+        document.getElementById("consultaForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const fechaInicio = document.getElementById("fechaInicio").value;
+            const fechaFin = document.getElementById("fechaFin").value;
+            obtenerProductosPorFecha(fechaInicio, fechaFin);
+        });
+
+        function obtenerProductosPorFecha(fechaInicio, fechaFin) {
+            fetch(`../consulta.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+                .then(response => response.json())
+                .then(data => mostrarProductos(data.productos))
+                .catch(error => console.error('Error al obtener los datos:', error));
+        }
+
+        function mostrarProductos(productos) {
+            const resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = "";
+
+            if (productos.length === 0) {
+                resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
+                return;
+            }
+
+            const table = document.createElement("table");
+            table.classList.add("table-auto", "w-full", "border", "border-gray-300", "text-center");
+
+            const thead = document.createElement("thead");
+            const trHead = document.createElement("tr");
+            const thNombre = document.createElement("th");
+            thNombre.textContent = "Nombre del producto";
+            thNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+            const thPrecio = document.createElement("th");
+            thPrecio.textContent = "Precio";
+            thPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+
+            trHead.appendChild(thNombre);
+            trHead.appendChild(thPrecio);
+            thead.appendChild(trHead);
+
+            const tbody = document.createElement("tbody");
+            productos.forEach(producto => {
+                const tr = document.createElement("tr");
+                const tdNombre = document.createElement("td");
+                tdNombre.textContent = producto.nombre;
+                tdNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+                const tdPrecio = document.createElement("td");
+                tdPrecio.textContent = producto.precio;
+                tdPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+
+                tr.appendChild(tdNombre);
+                tr.appendChild(tdPrecio);
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            resultadoDiv.appendChild(table);
+        }
+    </script>
 
 
 </body>
