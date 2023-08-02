@@ -6,6 +6,16 @@ class ProductosHelper {
             array("nombre" => "Producto 2", "precio" => 200, "fecha" => "2023-07-02"),
             array("nombre" => "Producto 3", "precio" => 120, "fecha" => "2023-07-03"),
             array("nombre" => "Producto 4", "precio" => 300, "fecha" => "2023-07-04"),
+            array("nombre" => "Producto 5", "precio" => 180, "fecha" => "2023-07-05"),
+            array("nombre" => "Producto 1", "precio" => 150, "fecha" => "2023-07-01"),
+            array("nombre" => "Producto 2", "precio" => 200, "fecha" => "2023-07-02"),
+            array("nombre" => "Producto 3", "precio" => 120, "fecha" => "2023-07-03"),
+            array("nombre" => "Producto 4", "precio" => 300, "fecha" => "2023-07-04"),
+            array("nombre" => "Producto 5", "precio" => 180, "fecha" => "2023-07-05"),
+            array("nombre" => "Producto 1", "precio" => 150, "fecha" => "2023-07-01"),
+            array("nombre" => "Producto 2", "precio" => 200, "fecha" => "2023-07-02"),
+            array("nombre" => "Producto 3", "precio" => 120, "fecha" => "2023-07-03"),
+            array("nombre" => "Producto 4", "precio" => 300, "fecha" => "2023-07-04"),
             array("nombre" => "Producto 5", "precio" => 180, "fecha" => "2023-07-05")
         );
 

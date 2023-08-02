@@ -26,22 +26,23 @@
     <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Estilos CSS adicionales y otras etiquetas head si las tienes -->
+
     <style>
 /* Estilos para pantallas de 601 píxeles en adelante */
 @media only screen and (min-width: 601px) {
-   /* Estilos para el contenedor del gráfico */
-   #chartContainer {
-    padding-bottom: 100% !important;
+    /* Estilos para el contenedor del gráfico */
+    #chartContainer {
+        padding-bottom: 100% !important;
     }
     /* Estilos para el gráfico de barras */
     canvas#barChart {
-        height: 550px !important;
-        
+        height: 650px !important;
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
@@ -56,11 +57,11 @@
 @media only screen and (max-width: 600px) {
     /* Estilos para el contenedor del gráfico */
     #chartContainer {
-        padding-bottom: 100% !important;
+        /* padding-bottom: 100% !important; */
     }
     /* Estilos para el gráfico de barras */
     canvas#barChart {
-        height: 600px !important;
+        height: 500px !important;
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
@@ -69,8 +70,18 @@
     #filtrodata{
         display: none;
     }
-}  
-        </style>
+}
+
+/* Estilos para hacer el gráfico responsive con Tailwind CSS */
+#chartContainer {
+    @apply relative;
+    @apply w-full;
+    @apply aspect-w-1 aspect-h-1;
+}
+canvas#barChart {
+    @apply absolute top-0 left-0 w-full h-full;
+}
+</style>
 
 </head>
 
@@ -162,7 +173,7 @@
 
         <div class="w-full lg:w-1/2 p-4">   
             <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
-            <div id="chartContainer" class="pt-6" style="position: relative; width: 100%; height: 400px;">
+            <div id="chartContainer" class="" style="position: relative; width: 100%; ">
             <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
             </div>
   </div>   
@@ -193,9 +204,12 @@
 
 
 
-
-
 </div>
+<!-- Agrega las referencias a las librerías de jQuery y DataTables -->
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
 <!-- Script del gráfico -->
 <script>
   // Obtener los datos de PHP y convertirlos a formato JavaScript
@@ -254,7 +268,7 @@ var colores = [
           beginAtZero: true, // Comenzar el eje y desde cero
           ticks: {
             font: {
-              size: 18 // Ajustar el tamaño de la fuente en el eje y
+              size: 16 // Ajustar el tamaño de la fuente en el eje y
             },
             callback: function(value, index, values) {
               return value.toLocaleString('en-US', {minimumFractionDigits: 0}); // Mostrar números con separadores de miles
@@ -293,77 +307,94 @@ var colores = [
   });
 </script>
 
+
+
 <script>
-        $(document).ready(function() {
-        $('#botonInformacion').click(function() {
-            $('#informacion').toggle();
-        });
-        });   
-        $(document).ready(function() {
-        $('#botonfiltrodata').click(function() {
-            $('#filtrodata').toggle();
-        });
-        });   
-</script>
-<script>
-        document.getElementById("consultaForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-            const fechaInicio = document.getElementById("fechaInicio").value;
-            const fechaFin = document.getElementById("fechaFin").value;
-            obtenerProductosPorFecha(fechaInicio, fechaFin);
+   
+         $(document).ready(function() {
+            $('#botonInformacion').click(function() {
+                $('#informacion').toggle();
+            });
+
+            $('#botonfiltrodata').click(function() {
+                $('#filtrodata').toggle();
+            });
+
+            $('#consultaForm').submit(function(event) {
+                event.preventDefault();
+                const fechaInicio = $('#fechaInicio').val();
+                const fechaFin = $('#fechaFin').val();
+                
+                obtenerProductosPorFecha(fechaInicio, fechaFin);
+            });
         });
 
         function obtenerProductosPorFecha(fechaInicio, fechaFin) {
-            fetch(`../consulta.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+            fetch(`../model/consultar.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
                 .then(response => response.json())
                 .then(data => mostrarProductos(data.productos))
                 .catch(error => console.error('Error al obtener los datos:', error));
         }
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
 
         function mostrarProductos(productos) {
-            const resultadoDiv = document.getElementById("resultado");
-            resultadoDiv.innerHTML = "";
+    const resultadoDiv = document.getElementById("resultado");
+    resultadoDiv.innerHTML = "";
+    if (productos.length === 0) {
+        resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
+        return;
+    }
 
-            if (productos.length === 0) {
-                resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
-                return;
-            }
+    const table = document.createElement("table");
+    table.id = "miTabla";
+    table.classList.add("table-auto", "w-full", "border", "border-gray-300", "text-center", "display");
 
-            const table = document.createElement("table");
-            table.classList.add("table-auto", "w-full", "border", "border-gray-300", "text-center");
+    const thead = document.createElement("thead");
+    const trHead = document.createElement("tr");
+    const thNombre = document.createElement("th");
+    thNombre.textContent = "Nombre del producto";
+    thNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+    const thPrecio = document.createElement("th");
+    thPrecio.textContent = "Precio";
+    thPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+    trHead.appendChild(thNombre);
+    trHead.appendChild(thPrecio);
+    thead.appendChild(trHead);
 
-            const thead = document.createElement("thead");
-            const trHead = document.createElement("tr");
-            const thNombre = document.createElement("th");
-            thNombre.textContent = "Nombre del producto";
-            thNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
-            const thPrecio = document.createElement("th");
-            thPrecio.textContent = "Precio";
-            thPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+    const tbody = document.createElement("tbody");
+    productos.forEach(producto => {
+        const tr = document.createElement("tr");
+        const tdNombre = document.createElement("td");
+        tdNombre.textContent = producto.nombre;
+        tdNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+        const tdPrecio = document.createElement("td");
 
-            trHead.appendChild(thNombre);
-            trHead.appendChild(thPrecio);
-            thead.appendChild(trHead);
+        // Convertir el precio a número y formatear con puntos para separar miles y dos decimales
+        const precioNumero = parseFloat(producto.precio);
+        const precioFormateado = precioNumero.toLocaleString("en-US", { minimumFractionDigits: 0 });
 
-            const tbody = document.createElement("tbody");
-            productos.forEach(producto => {
-                const tr = document.createElement("tr");
-                const tdNombre = document.createElement("td");
-                tdNombre.textContent = producto.nombre;
-                tdNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
-                const tdPrecio = document.createElement("td");
-                tdPrecio.textContent = producto.precio;
-                tdPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+        // Formatear el precio con el símbolo de pesos
+        const precioConSimbolo = "$" + precioFormateado;
+        tdPrecio.textContent = precioConSimbolo;
+        tdPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+        tr.appendChild(tdNombre);
+        tr.appendChild(tdPrecio);
+        tbody.appendChild(tr);
+    });
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    resultadoDiv.appendChild(table);
 
-                tr.appendChild(tdNombre);
-                tr.appendChild(tdPrecio);
-                tbody.appendChild(tr);
-            });
-
-            table.appendChild(thead);
-            table.appendChild(tbody);
-            resultadoDiv.appendChild(table);
-        }
+    // Inicializar DataTables
+    $(document).ready(function () {
+        $('#miTabla').DataTable({
+            "order": [[1, "desc"]] // 1 indica la columna del precio (la primera columna es 0)
+        });
+    });
+}
+   
     </script>
 
 
