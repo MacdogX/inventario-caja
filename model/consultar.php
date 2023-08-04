@@ -2,7 +2,7 @@
 require_once '../controller/librery/database.php';
 
 class ProductosHelper{
-    private $id;
+    private $usuariocode;
     private $connection;
 
     public function __construct()
@@ -10,14 +10,19 @@ class ProductosHelper{
         $this->connection = new Connection();
     }
 
-    public function obtenerProductosPorFecha($fechaInicio, $fechaFin, $id) {
+    public function obtenerProductosPorFecha($fechaInicio, $fechaFin, $usuariocode) {
         try {
             $pdo = $this->connection->conexion();
         
-            $query = "SELECT nombre, SUM(precio) AS precio, fecha_ingreso FROM ventaproducto WHERE id_emp = :id AND fecha_ingreso >= :fechaInicio AND fecha_ingreso <= :fechaFin GROUP BY nombre ORDER BY precio DESC";
+            $query = "SELECT nombre, SUM(precio) AS precio, fecha_ingreso 
+            FROM ventaproducto 
+            WHERE id_emp = :id 
+            AND DATE(fecha_ingreso) BETWEEN :fechaInicio 
+             AND :fechaFin 
+           GROUP BY nombre ORDER BY precio DESC";
 
             $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id', $usuariocode);
             $stmt->bindParam(':fechaInicio', $fechaInicio);
             $stmt->bindParam(':fechaFin', $fechaFin);
             $stmt->execute();
@@ -38,14 +43,14 @@ class ProductosHelper{
 }
 
 // Obtener los parámetros de fecha enviados por GET
-if (isset($_GET["fechaInicio"]) && isset($_GET["fechaFin"])) {
+if (isset($_GET["fechaInicio"]) && isset($_GET["fechaFin"])&& isset($_GET["usuariocode"])) {
     $fechaInicio = $_GET["fechaInicio"];
     $fechaFin = $_GET["fechaFin"];
-    $id = 8; // Asigna el ID correspondiente (debes obtenerlo de alguna forma)
+    $usuariocode = $_GET["usuariocode"]; // Asigna el ID correspondiente (debes obtenerlo de alguna forma)
 
     // Realizar la consulta con las fechas seleccionadas
     $productosHelper = new ProductosHelper();
-    $productos = $productosHelper->obtenerProductosPorFecha($fechaInicio, $fechaFin, $id);
+    $productos = $productosHelper->obtenerProductosPorFecha($fechaInicio, $fechaFin, $usuariocode);
     // Devolver los productos como JSON
     echo json_encode(array("productos" => $productos));
 }
