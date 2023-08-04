@@ -63,7 +63,6 @@ if (isset($_SESSION['correo'])) {
                         </tr>
                     </thead>
                     <tbody>
-                   
                    <?php 
                         include_once '../model/traerdatos.php';
                         $datosProductos = new datosproductos();
@@ -82,7 +81,7 @@ if (isset($_SESSION['correo'])) {
                             <?php echo $producto['value_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
-                                <a href="#" class="font-medium  hover:underline px-6 py-4 text-center">Editar</a>
+                            <a href="#" class="font-medium hover:underline px-6 py-4 text-center" onclick="openModal(<?php echo $producto['id']; ?>, '<?php echo $producto['name_producto']; ?>', '<?php echo $producto['value_producto']; ?>')">Editar</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -90,12 +89,7 @@ if (isset($_SESSION['correo'])) {
                 </table>
             </div>
         </div>
-
-
     </div>
-    
-
-     
     <div id="modal" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
         <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
@@ -104,19 +98,12 @@ if (isset($_SESSION['correo'])) {
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre Del producto:</label>
                     <input  oninput="convertirAMayusculas()" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" required>                    
                 </div>
-                <!--
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="price" name="price" type="number" step="0.01" placeholder="Ingrese el precio del producto" required>
-                </div>
-                -->
-
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio del producto</label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
                 </div>
                 <div class="flex justify-end">
-                    <input type="hidden" value="1" id="value"" name="value">
+                    <input type="hidden" value="1" id="value" name="value">
                     <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
                     <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
@@ -124,14 +111,31 @@ if (isset($_SESSION['correo'])) {
             </form>
         </div>
     </div> 
-    
-
+<!-- Modal de edición -->
+<div id="modalEditar" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
+    <h2 class="text-xl font-bold mb-4">Editar producto</h2>
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <form>
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre del producto:</label>
+                <input  oninput="convertirAMayusculas()" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="nombre" name="nombre" value="">
+                </div>
+                <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="precio">Precio:</label>
+                <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="precio" name="precio" value="">
+                </div>
+                <div class="flex justify-end">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
+                  <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
+            </form>
+            </div>
+  
+        </div>
+    </div>
+</div>
    
-
-
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -200,10 +204,11 @@ if (isset($_SESSION['correo'])) {
     document.getElementById('modal').classList.add('hidden');
   }
 
+  
 
 </script>
 
-<script src="">
+<script >
 function searchProduct() {
   var searchQuery = document.getElementById('searchInput').value;
   
@@ -255,9 +260,25 @@ function displayResults(results) {
 <script>
         function convertirAMayusculas() {
             var input = document.getElementById('name');
+            var input = document.getElementById('nombre');
             input.value = input.value.toUpperCase();
         }
 
 </script>
+
+<script>
+
+
+function openModal() {
+    document.getElementById('modalEditar').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('modalEditar').classList.add('hidden');
+  }
+
+</script>
+
+
 </body>
 </html>

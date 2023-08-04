@@ -20,7 +20,7 @@
      include '../controller/librery/librery.php';
      require_once '../controller/librery/database.php';
     ?>
-    <title>estadistica</title>
+    <title>Estadistica</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
@@ -42,7 +42,9 @@
     }
     /* Estilos para el gráfico de barras */
     canvas#barChart {
-        height: 650px !important;
+        height: 598px !important;
+        width: 449px !important;
+        
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
@@ -190,7 +192,7 @@ canvas#barChart {
 
     <label for="fechaFin" class="text-gray-700">Fecha de fin:</label>
     <input type="date" id="fechaFin" name="fechaFin" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-
+    <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">      
     <button type="submit" id="btnConsultar" class="h-10 px-5 py-2 text-white bg-indigo-700 rounded-lg transition-colors duration-150 shadow-md focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hover:bg-indigo-800">Consultar</button>
   </form>
 </div>
@@ -256,9 +258,10 @@ var colores = [
           beginAtZero: true, // Comenzar el eje x desde cero
           ticks: {
             font: {
-              size: 16, // Ajustar el tamaño de la fuente en el eje x
-              family: 'Arial, sans-serif', // Cambiar el tipo de fuente
-              weight: 'bold' // Establecer la fuente en negrita
+              size: 18, // Ajustar el tamaño de la fuente en el eje x
+              family: 'Lato', // Cambiar el tipo de fuente
+            
+              style:'normal'
             },
             maxRotation: 80, // Rotar las etiquetas en un ángulo de 45 grados
             minRotation: 80 // Rotar las etiquetas en un ángulo de 45 grados
@@ -324,13 +327,14 @@ var colores = [
                 event.preventDefault();
                 const fechaInicio = $('#fechaInicio').val();
                 const fechaFin = $('#fechaFin').val();
+                const usuariocode = $('#usuariocode').val();
                 
-                obtenerProductosPorFecha(fechaInicio, fechaFin);
+                obtenerProductosPorFecha(fechaInicio, fechaFin,usuariocode);
             });
         });
 
-        function obtenerProductosPorFecha(fechaInicio, fechaFin) {
-            fetch(`../model/consultar.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+        function obtenerProductosPorFecha(fechaInicio, fechaFin, usuariocode) {
+            fetch(`../model/consultar.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&usuariocode=${usuariocode}`)
                 .then(response => response.json())
                 .then(data => mostrarProductos(data.productos))
                 .catch(error => console.error('Error al obtener los datos:', error));

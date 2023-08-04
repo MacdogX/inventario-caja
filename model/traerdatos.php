@@ -71,8 +71,8 @@ class VentasStatistics {
             // Consulta SQL para obtener los datos de ventas por nombre
 
             $pdo = $this->connection->conexion();
-            $sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto where id_emp = :id  GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
-            // $sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto where id_emp = :id AND  DATE(fecha_ingreso) = CURDATE() GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
+            //$sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto where id_emp = :id  GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
+             $sql = "SELECT nombre, SUM(precio) AS ganancia_total FROM ventaproducto where id_emp = :id AND  DATE(fecha_ingreso) = CURDATE() GROUP BY nombre ORDER BY ganancia_total DESC limit 10";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
