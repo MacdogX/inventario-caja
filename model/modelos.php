@@ -30,6 +30,39 @@ class ingresoproductos
     }
 }
 
+class actualizarproducto {
+
+
+    private $connection;
+    public function __construct()
+    {
+        $this->connection = new Connection();
+    }
+    public function updateproducto($nombre, $precio, $id)
+    {
+        
+        try {
+            $pdo = $this->connection->conexion();
+        
+           // $query = "INSERT INTO productos (name_producto, value_producto,emp_producto) VALUES (:name, :description, :emp_producto)";
+            $query = "UPDATE productos SET name_producto = :nombre, value_producto = :precio where id =:id ";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':precio', $precio);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+    
+            return true;
+        } catch (PDOException $e) {
+            echo 'Error al guardar el producto: ' . $e->getMessage();
+            return false;
+        }
+
+    }
+
+}
+
+
 // Obtener el valor enviado mediante la solicitud POST
 $value = $_POST['value'];
 
@@ -39,7 +72,7 @@ if ($value == 1) {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $id = $_POST['usuariocode'];
-//echo "imprimir " .$name .$description;
+    //echo "imprimir " .$name .$description;
     // Crear una instancia de la clase ingresoproductos
     $producto = new ingresoproductos();
 
@@ -50,6 +83,18 @@ if ($value == 1) {
     } else {
         // Hubo un error al guardar el producto
         $response = array('status' => 'error', 'message' => 'Error al guardar el producto en la base de datos.');
+    }
+}elseif($value == 2){
+    $nombre = $_POST['nombre'];
+    $precio = $_POST['precio'];
+    $idusuario = $_POST['usuariocode']; // Cambiar 'id' por 'usuariocode'
+    $id = $_POST['productId'];
+    $producto = new actualizarproducto();
+    if ($producto->updateproducto($nombre, $precio, $id)) {
+        $response = array('status' => 'success');
+    } else {
+        // Hubo un error al guardar el producto
+        $response = array('status' => 'error', 'message' => 'Error al actualizar el producto en la base de datos.');
     }
 } else {
     // El valor de 'value' no es igual a 1, no se ejecuta la función guardarProducto

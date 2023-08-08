@@ -67,22 +67,22 @@ if (isset($_SESSION['correo'])) {
                         include_once '../model/traerdatos.php';
                         $datosProductos = new datosproductos();
                         $productos = $datosProductos->obternerproducto($id);
-                        foreach ($productos as $producto):
+                        foreach ($productos as $productoItem):
                         ?>
                         <tr class="bg-blue-300 border-b border-blue-400">
                             
                             <th scope="row" class="text-center px-6 py-4 font-medium text-blue-250 whitespace-nowrap dark:text-blue-200">
-                            <?php echo $producto['id']; ?>
+                            <?php echo $productoItem['id']; ?>
                             </th>
                             <td class="px-6 py-4 text-center ">
-                            <?php echo $producto['name_producto']; ?>
+                            <?php echo $productoItem['name_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
-                            <?php echo $producto['value_producto']; ?>
+                            <?php echo $productoItem['value_producto']; ?>
                             </td>
                             <td class="px-6 py-4 text-center ">
-                            <a href="#" class="font-medium hover:underline px-6 py-4 text-center" onclick="openModal(<?php echo $producto['id']; ?>, '<?php echo $producto['name_producto']; ?>', '<?php echo $producto['value_producto']; ?>')">Editar</a>
-                            </td>
+                            <a href="#" class="font-medium hover:underline px-6 py-4 text-center" onclick="openEditModal(<?php echo $productoItem['id']; ?>, '<?php echo $productoItem['name_producto']; ?>', '<?php echo $productoItem['value_producto']; ?>')">Editar</a>
+                          </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -104,6 +104,7 @@ if (isset($_SESSION['correo'])) {
                 </div>
                 <div class="flex justify-end">
                     <input type="hidden" value="1" id="value" name="value">
+                    <input type="hidden" id="modalProductId" value="<?php echo $productoItem['id']; ?>">
                     <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
                     <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
@@ -112,28 +113,33 @@ if (isset($_SESSION['correo'])) {
         </div>
     </div> 
 <!-- Modal de edición -->
+
+
 <div id="modalEditar" class="modal hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-8 rounded relative w-full max-w-lg max-h-ful">
     <h2 class="text-xl font-bold mb-4">Editar producto</h2>
     <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
-            <form>
+        <form onsubmit="saveEditedProduct(); return false;">
               <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre del producto:</label>
-                <input  oninput="convertirAMayusculas()" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="nombre" name="nombre" value="">
+                <input oninput="convertirAMayusculas()" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="nombre" name="nombre" value="">
                 </div>
                 <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="precio">Precio:</label>
                 <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="precio" name="precio" value="">
                 </div>
                 <div class="flex justify-end">
+                <input type="hidden" value="2" id="value" name="value">
+                <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
-                  <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" onclick="closeModal()">Cancelar</button>
+                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" type="button" onclick="closeEditModal()">Cancelar</button>
             </form>
             </div>
   
         </div>
     </div>
+                      
 </div>
    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -146,99 +152,14 @@ if (isset($_SESSION['correo'])) {
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
-<script>
-    $(document).ready(function () {
-    $('#example').DataTable({
-        order: [[0, 'desc']],
-    });
-});
 
-</script>
-<script>
-  function saveProduct() {
-    // Obtener los valores de los campos del formulario
-    var name = document.getElementById('name').value;
-    var description = document.getElementById('description').value;
-    var value = document.getElementById('value').value;
-    var usuariocode = document.getElementById('usuariocode').value;
 
-    // Crear un objeto FormData para enviar los datos del formulario
-    var formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('value', value);
-    formData.append('usuariocode', usuariocode);
+<script src="../controller/script_productos.js"> </script>
 
-    // Crear y configurar la petición AJAX
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../model/modelos.php', true);
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        // La petición se completó exitosamente
-        var response = JSON.parse(xhr.responseText);
-        // Manejar la respuesta del servidor
-        if (response.status === 'success') {
-          console.log('Producto guardado correctamente');
-          // Cerrar el modal y restablecer los campos
-          closeModal();
-          document.getElementById('name').value = '';
-          document.getElementById('description').value = '';
-          document.getElementById('usuariocode').value = '';
-          window.location.reload();
-        } else {
-          console.error('Error al guardar el producto: ' + response.message);
-        }
-      } else {
-        // Hubo un error en la petición
-        console.error('Error en la petición AJAX');
-      }
-    };
-    xhr.send(formData);
-  }
 
-  function openModal() {
-    document.getElementById('modal').classList.remove('hidden');
-  }
-
-  function closeModal() {
-    document.getElementById('modal').classList.add('hidden');
-  }
-
-  
-
-</script>
 
 <script >
-function searchProduct() {
-  var searchQuery = document.getElementById('searchInput').value;
-  
-  // Crear y configurar la petición AJAX
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'buscar_producto.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // La petición se completó exitosamente
-      var response = JSON.parse(xhr.responseText);
-      // Manejar la respuesta del servidor
-      if (response.status === 'success') {
-        var results = response.data;
-        // Manejar los resultados de la búsqueda
-        displayResults(results);
-      } else {
-        console.error('Error al buscar el producto: ' + response.message);
-      }
-    } else {
-      // Hubo un error en la petición
-      console.error('Error en la petición AJAX');
-    }
-  };
-  
-  // Enviar la solicitud AJAX con los datos de búsqueda
-  var data = 'searchQuery=' + encodeURIComponent(searchQuery);
-  xhr.send(data);
-}
-
+/*
 function displayResults(results) {
   var searchResults = document.getElementById('searchResults');
   searchResults.innerHTML = ''; // Limpiar resultados anteriores
@@ -255,29 +176,10 @@ function displayResults(results) {
     }
   }
 }
-
-</script>
-<script>
-        function convertirAMayusculas() {
-            var input = document.getElementById('name');
-            var input = document.getElementById('nombre');
-            input.value = input.value.toUpperCase();
-        }
-
+*/
 </script>
 
-<script>
 
-
-function openModal() {
-    document.getElementById('modalEditar').classList.remove('hidden');
-  }
-
-  function closeModal() {
-    document.getElementById('modalEditar').classList.add('hidden');
-  }
-
-</script>
 
 
 </body>
