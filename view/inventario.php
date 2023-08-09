@@ -39,7 +39,15 @@ if (isset($_SESSION['correo'])) {
     <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
     <!-- Modal toggle -->
     <h2 class="text-white mb-4">Modulo de Ventas diarias</h2>
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
+
+        <button class="flex items-center bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-700 px-4 py-2 rounded-lg"  onclick="openModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-700" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 0a1 1 0 0 1 1 1v8h8a1 1 0 0 1 0 2h-8v8a1 1 0 0 1-2 0v-8H1a1 1 0 1 1 0-2h8V1a1 1 0 0 1 1-1z"/>
+                </svg>
+                Agregar producto
+            </button>
+    
+   <!-- <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>-->
 </div>
         <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
             <!-- table -->
@@ -47,14 +55,14 @@ if (isset($_SESSION['correo'])) {
                 <div class="-m-1.5 overflow-x-auto">
                     <div class="p-1.5 min-w-full inline-block align-middle">
                         <div class="border rounded-lg overflow-hidden dark:border-gray-700">
-                            <table id='example' class='display responsive nowrap mb-12 col-12 text-base sm:text-sm md:text-base table-condensed bg-gray-50 ' style='width:100%'>
-                                <thead class="bg-blue-600 text-white uppercase">
-                                    <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Id</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Cantidad</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase ">Precio</th>
-                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-white uppercase ">Producto</th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-white uppercase ">Acción</th>
+                            <table id='example' class='display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden' style='width:100%'>
+                                <thead class="bg-gray-900">
+                                    <tr class="text-white text-left">
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Id</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Cantidad</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Precio</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">Producto</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Acción</th>
                                         
                                     </tr>
                                 </thead>
@@ -71,7 +79,7 @@ if (isset($_SESSION['correo'])) {
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['cantidad']; ?></td>
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['precio']; ?></td>
                                         <td class="sm:text-xs md:text-sm"><?php  $nombreReducido = strlen($producto['nombre']) > 10 ? substr($producto['nombre'], 0, 10) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>
-                                        <td class="sm:text-xs md:text-sm">action</td>
+                                        <td class="px-6 py-4 text-center"> <a href="#" class="text-white text-sm w-1/3 pb-1 bg-green-400 font-semibold px-2 rounded-full">Eliminar</a> </td>
                                        
                                     </tr>
                                     <?php endforeach; ?>
@@ -189,7 +197,10 @@ function saveProduct() {
 <script>
     $(document).ready(function () {
     $('#example').DataTable({
-        order: [[0, 'desc']],
+        order: [[0, 'desc']], 
+        language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+    },
     });
 });
 </script>

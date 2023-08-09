@@ -83,6 +83,16 @@
 canvas#barChart {
     @apply absolute top-0 left-0 w-full h-full;
 }
+/* Estilos opcionales para el div */
+.icon-div {
+           border-radius: 12px;
+            width: 100px; /* Ajusta el ancho según tus necesidades */
+            height: 100px; /* Ajusta la altura según tus necesidades */
+            background-color: #EAA832; /* Fondo del div */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 </style>
 
 </head>
@@ -103,7 +113,7 @@ canvas#barChart {
 
         <div class="col-span-3 md:col-span-1 flex justify-center">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+            <div>
                     <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded"   id="botonInformacion"  >Informacion de venta de Hoy</button>
                 </div>
                 <div>
@@ -125,15 +135,36 @@ canvas#barChart {
 
                         $row = $ventatotaldia->fetch(PDO::FETCH_ASSOC);
                         $gananciaTotal = $row['ganancia_total'];
-                        echo "<h2 class='px-4 py-2 border border-gray-300 text-center font-bold'> Venta total del dia :  $gananciaTotal</h2> " ;
+                        echo "<div class='relative flex flex-col bg-clip-border bg-white text-gray-700 rounded-2xl shadow-lg shadow-gray-500/10'>
+                        <div class='bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center'>
+                            <div class='icon-div'>
+                                <img src='../resources/icons8-señal-100.png' alt='Icono JPG' class='w-12 h-12'>
+                            </div>
+                        </div>
+                        <div class='p-4 text-right'>
+                            <p class='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>Venta total del día</p>
+                            <h2 class='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>$  $gananciaTotal  </h2>
+                        </div>
+                        <div class='border-t border-blue-gray-50 p-4'>
+                            <p class='block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600'>
+                                <strong class='text-green-500'>Impulsando las ganancias</strong>&nbsp;con éxito financiero
+                            </p>
+                        </div>
+                    </div>";
+                            
                         } catch (PDOException $e) {
                             die("Error al obtener los datos: " . $e->getMessage());
                         }
                 ?>
         </div>
-    <div class="lg:flex"> 
+    <div class="lg:flex py-4"> 
         <div class="text-black items-center prueba pb-10 w-full lg:w-1/2 p-4">
-          <h2 class="text-white mb-4 text-center mx-auto">Indicador de ganancias diarias</h2>
+        <div class="lg:w-1/2 p-4 order-1 lg:order-2 flex items-center">
+            <div class=' mr-4'>
+                <img src='../resources/ganancias.png' alt='Icono JPG' class='w-12 h-12'>
+            </div>
+            <h2 class="text-black mb-4 text-center mx-auto py-4 lg:text-right lg:mr-4 lg:mb-0">Indicador de ganancias diarias</h2>
+        </div>
             <?php 
                 $ventasStats = new VentasStatistics($connection);
                 // Obtener las ventas por nombre utilizando el método obtenerVentasPorNombre()
@@ -155,22 +186,28 @@ canvas#barChart {
                     // Puedes agregar más colores si lo deseas
                   );
             ?>    
-            <table class="table-auto w-full border border-gray-300 text-center">
-                    <thead>
-                       <tr>
-                        <th class="px-4 py-2 border border-gray-300">Nombre del producto</th>
-                         <th class="px-4 py-2 border border-gray-300">Ganancia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($nombres as $key => $nombre): ?>
-                            <tr>
-                            <td class="px-4 py-2 border border-gray-300" style="background-color: <?php echo $colores[$key % count($colores)]; ?>"><?php echo $nombre; ?></td>
-                          <td class="px-4 py-2 border border-gray-300"><?php echo'$ '; echo number_format($ganancias[$key], 0, ',', '.'); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-            </table>
+       <table class="table-auto w-full border border-gray-300 text-center bg-clip-border bg-white text-gray-700 rounded-2xl shadow-lg shadow-gray-500/10 border-t border-blue-gray-50 p-4">
+       <table class="table-auto w-full border border-gray-300 text-center bg-white rounded-2xl shadow-lg" >
+    <thead class="bg-gradient-to-tr from-orange-600 to-orange-400 text-gray-700">
+        <tr>
+            <th class="px-4 py-2 border border-gray-300 bg-gray-300">Nombre del producto</th>
+            <th class="px-4 py-2 border border-gray-300 bg-gray-300">Ganancia</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($nombres as $key => $nombre): ?>
+            <tr>
+                <td class="px-4 py-2 border border-gray-300" style="background-color: <?php echo $colores[$key % count($colores)]; ?>">
+                    <?php echo $nombre; ?>
+                </td>
+                <td class="px-4 py-2 border border-gray-300">
+                    <?php echo '$ ' . number_format($ganancias[$key], 0, ',', '.'); ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
     </div>
 
         <div class="w-full lg:w-1/2 p-4">   
@@ -181,6 +218,10 @@ canvas#barChart {
   </div>   
         </div>
    </div>
+
+
+
+
 
 
 <div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="filtrodata">
@@ -404,3 +445,6 @@ var colores = [
 
 </body>
 </html>
+
+
+
