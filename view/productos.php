@@ -28,6 +28,15 @@ if (isset($_SESSION['correo'])) {
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 <link rel="stylesheet" href="../controller/table.css">
+
+<style>
+
+#example{
+    font: 90%/1.15em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
+
+}
+
+</style>
 </head>
 <body>
 <?php  include '../view/nav/nav.php'; 
@@ -41,7 +50,7 @@ if (isset($_SESSION['correo'])) {
                 <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
                     <!-- Modal toggle -->
                     <h2 class="text-white mb-4">Agregar productos al inventario</h2>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg" onclick="openModal()">Agregar Producto</button>
             </div>
        <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -49,7 +58,7 @@ if (isset($_SESSION['correo'])) {
                     <thead class="bg-gray-900 text-white uppercase">
                   <tr>
                       <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                          Id de producto
+                          Id
                       </th>
                       <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
                           Nombre del producto
@@ -69,11 +78,11 @@ if (isset($_SESSION['correo'])) {
                   $productos = $datosProductos->obternerproducto($id);
                   foreach ($productos as $productoItem):
                   ?>
-                  <tr class="bg-blue-300 border-b border-blue-400">
+                  <tr class="bg-blue-300 border-b border-blue-400 ">
                       <th scope="row" class="text-center px-6 py-4 font-medium text-blue-250 whitespace-nowrap dark:text-blue-200">
                           <?php echo $productoItem['id']; ?>
                       </th>
-                      <td class="px-6 py-4 text-center">
+                      <td class="px-6 py-4 text-center ">
                           <?php echo $productoItem['name_producto']; ?>
                       </td>
                       <td class="px-6 py-4 text-center">

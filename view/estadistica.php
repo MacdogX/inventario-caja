@@ -104,24 +104,19 @@ canvas#barChart {
 
     <div class="container mx-auto">
 
-    <div class="grid grid-cols-3 gap-4">
-
-        <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
-            <!-- Modal toggle -->
-            <h2 class="text-white mb-4">Modulo de estadistica</h2>
-        </div>
-
-        <div class="col-span-3 md:col-span-1 flex justify-center">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                    <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded"   id="botonInformacion"  >Informacion de venta de Hoy</button>
-                </div>
-                <div>
-                    <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded" id="botonfiltrodata">Informacion de venta por Fecha</button>
-                </div>
-            </div>
-        </div>
-
+            <div class="grid grid-cols-3 gap-4">
+                <!--LINEA NEGRA-->
+                    <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
+                        <!-- Modal toggle -->
+                        <h2 class="text-white mb-4">Modulo de estadistica</h2>
+                    </div>
+                    <div class="col-span-3 md:col-span-1 flex justify-center">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:flex-col md:flex-row">
+                            <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded" id="botonInformacion">Informacion de venta de Hoy</button>
+                            
+                            <button class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded" id="botonfiltrodata">Informacion de venta por Fecha</button>
+                        </div>
+                    </div>
 
 
     <div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="informacion">
@@ -143,7 +138,7 @@ canvas#barChart {
                         </div>
                         <div class='p-4 text-right'>
                             <p class='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>Venta total del día</p>
-                            <h2 class='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>$  $gananciaTotal  </h2>
+                            <h2 class='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'><span id='gananciaTotal'>0</span> </span>  </h2>
                         </div>
                         <div class='border-t border-blue-gray-50 p-4'>
                             <p class='block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600'>
@@ -188,60 +183,65 @@ canvas#barChart {
             ?>    
        <table class="table-auto w-full border border-gray-300 text-center bg-clip-border bg-white text-gray-700 rounded-2xl shadow-lg shadow-gray-500/10 border-t border-blue-gray-50 p-4">
        <table class="table-auto w-full border border-gray-300 text-center bg-white rounded-2xl shadow-lg" >
-    <thead class="bg-gradient-to-tr from-orange-600 to-orange-400 text-gray-700">
-        <tr>
-            <th class="px-4 py-2 border border-gray-300 bg-gray-300">Nombre del producto</th>
-            <th class="px-4 py-2 border border-gray-300 bg-gray-300">Ganancia</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($nombres as $key => $nombre): ?>
-            <tr>
-                <td class="px-4 py-2 border border-gray-300" style="background-color: <?php echo $colores[$key % count($colores)]; ?>">
-                    <?php echo $nombre; ?>
-                </td>
-                <td class="px-4 py-2 border border-gray-300">
-                    <?php echo '$ ' . number_format($ganancias[$key], 0, ',', '.'); ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+            <thead class="bg-gradient-to-tr from-orange-600 to-orange-400 text-gray-700">
+                <tr>
+                    <th class="px-4 py-2 border border-gray-300 bg-gray-300">Nombre del producto</th>
+                    <th class="px-4 py-2 border border-gray-300 bg-gray-300">Ganancia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($nombres as $key => $nombre): ?>
+                    <tr>
+                        <td class="px-4 py-2 border border-gray-300" style="background-color: <?php echo $colores[$key % count($colores)]; ?>">
+                            <?php echo $nombre; ?>
+                        </td>
+                        <td class="px-4 py-2 border border-gray-300">
+                            <?php echo '$ ' . number_format($ganancias[$key], 0, ',', '.'); ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
     </div>
+            <!--Grafica de ganacias-->
+                <div class="w-full lg:w-1/2 p-4">   
+                    <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
+                        <div id="chartContainer" class="" style="position: relative; width: 100%; ">
+                            <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>  
+             <!--Final-->   
+         
+    </div>
 
-        <div class="w-full lg:w-1/2 p-4">   
-            <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
-            <div id="chartContainer" class="" style="position: relative; width: 100%; ">
-            <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-            </div>
-  </div>   
-        </div>
+
+
    </div>
 
 
 
+            <!--Columan de filtro de fecha -->
+            <div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="filtrodata">
+                        <div class="flex justify-center items-start p-10 px-4 py-2 border border-gray-300">
+                            <form id="consultaForm" class="flex flex-wrap items-center gap-4 md:flex-row flex-col">
+                            <label for="fechaInicio" class="text-gray-700">Fecha de inicio:</label>
+                                <input type="date" id="fechaInicio" name="fechaInicio" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
 
+                                <label for="fechaFin" class="text-gray-700">Fecha de fin:</label>
+                                <input type="date" id="fechaFin" name="fechaFin" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">      
+                                <button type="submit" id="btnConsultar" class="h-10 px-5 py-2 text-white bg-indigo-700 rounded-lg transition-colors duration-150 shadow-md focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hover:bg-indigo-800">Consultar</button>
+                            </form>
+                        </div>
+                    <br>
 
+                    <div id="resultado">
+                            <!-- Aquí se mostrará la tabla con los productos -->
+                    </div> 
+            </div>
+            <!-- Final -->
 
-<div class="col-span-3 md:col-span-1 bg-white p-4 flex flex-col items-center" id="filtrodata">
-
-<div class="flex justify-center items-start p-10 px-4 py-2 border border-gray-300">
-  <form id="consultaForm" class="flex flex-wrap items-center gap-4 md:flex-row flex-col">
-    <label for="fechaInicio" class="text-gray-700">Fecha de inicio:</label>
-    <input type="date" id="fechaInicio" name="fechaInicio" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-
-    <label for="fechaFin" class="text-gray-700">Fecha de fin:</label>
-    <input type="date" id="fechaFin" name="fechaFin" class="block w-36 py-2 px-2 border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-    <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">      
-    <button type="submit" id="btnConsultar" class="h-10 px-5 py-2 text-white bg-indigo-700 rounded-lg transition-colors duration-150 shadow-md focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50 hover:bg-indigo-800">Consultar</button>
-  </form>
-</div>
-<div id="resultado">
-        <!-- Aquí se mostrará la tabla con los productos -->
-    </div> 
-
-</div>
 
 </div>
 
@@ -443,8 +443,30 @@ var colores = [
     </script>
 
 
+<script>
+    const gananciaTotalElement = document.getElementById('gananciaTotal');
+    const targetGananciaTotal = parseFloat(<?php echo $gananciaTotal; ?>); // Valor final de gananciaTotal
+    const increment = targetGananciaTotal / 100; // Incremento por paso (ajustar para cambiar la velocidad)
+    let currentGananciaTotal = 0;
+    let animationRequestId;
+
+    function updateGananciaTotal() {
+        gananciaTotalElement.textContent = '$ ' + currentGananciaTotal.toLocaleString('en-US', { minimumFractionDigits: 0 });
+
+        currentGananciaTotal += increment;
+
+        if (currentGananciaTotal <= targetGananciaTotal) {
+            animationRequestId = requestAnimationFrame(updateGananciaTotal);
+        }
+    }
+
+    document.getElementById('botonInformacion').addEventListener('click', function () {
+        if (!animationRequestId) {
+            updateGananciaTotal();
+        }
+    });
+</script>
 </body>
 </html>
 
-
-
+    

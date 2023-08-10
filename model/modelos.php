@@ -61,6 +61,35 @@ class actualizarproducto {
     }
 
 }
+class eliminarproducto {
+
+    private $connection;
+
+    public function __construct()
+    {
+        $this->connection = new Connection();
+    }
+
+    public function eliminar($id)
+    {
+        
+        try {
+            $pdo = $this->connection->conexion();
+        
+           // $query = "INSERT INTO productos (name_producto, value_producto,emp_producto) VALUES (:name, :description, :emp_producto)";
+            $query = "DELETE FROM ventaproducto WHERE `ventaproducto`.`id` =:id ";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+    
+            return true;
+        } catch (PDOException $e) {
+            echo 'Error al guardar el producto: ' . $e->getMessage();
+            return false;
+        }
+
+    }
+}
 
 
 // Obtener el valor enviado mediante la solicitud POST
@@ -84,6 +113,19 @@ if ($value == 1) {
         // Hubo un error al guardar el producto
         $response = array('status' => 'error', 'message' => 'Error al guardar el producto en la base de datos.');
     }
+}elseif($value == 3){
+        $id = $_POST['eliminar-id'];
+           
+            $eliminar = new eliminarproducto();
+
+        if($eliminar->eliminar($id)){
+            $response = array('status' => 'success');
+            } else {
+                // Hubo un error al guardar el producto
+                $response = array('status' => 'error', 'message' => 'Error al guardar el producto en la base de datos.');
+            }
+
+    
 }elseif($value == 2){
     $nombre = $_POST['nombre'];
     $precio = $_POST['precio'];
