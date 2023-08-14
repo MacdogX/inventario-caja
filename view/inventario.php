@@ -239,30 +239,31 @@ function saveProduct() {
 
     
             function eliminarProductoAjax(id, value) {
-    var formData = new FormData();
-    formData.append('eliminar-id', id);
-    formData.append('value', value);
+                var formData = new FormData();
+                formData.append('eliminar-id', id);
+                formData.append('value', value);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../model/modelos.php', true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.status === 'success') {
-                console.log('Producto eliminado');
-                // Cerrar el modal de eliminación
-                closeEliminar();
-                // Actualizar la tabla de productos (puedes hacerlo mediante AJAX aquí o recargar la página)
-                // ...
-            } else {
-                console.error('Error al eliminar el producto: ' + response.message);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '../model/modelos.php', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.status === 'success') {
+                            console.log('Producto eliminado');
+                            // Cerrar el modal de eliminación
+                            closeEliminar();
+                            window.location.reload();
+                            // Actualizar la tabla de productos (puedes hacerlo mediante AJAX aquí o recargar la página)
+                            // ...
+                        } else {
+                            console.error('Error al eliminar el producto: ' + response.message);
+                        }
+                    } else {
+                        console.error('Error en la petición AJAX');
+                    }
+                };
+                xhr.send(formData);
             }
-        } else {
-            console.error('Error en la petición AJAX');
-        }
-    };
-    xhr.send(formData);
-}
 
             function closeEliminar() {
                 document.getElementById("eliminarModal").classList.add("hidden");

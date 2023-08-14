@@ -90,6 +90,36 @@ class eliminarproducto {
 
     }
 }
+class deleteproducto {
+
+    private $connection;
+
+    public function __construct()
+    {
+        $this->connection = new Connection();
+    }
+
+    public function deleteproducto($id)
+    {
+        
+        try {
+            $pdo = $this->connection->conexion();
+        
+           // $query = "INSERT INTO productos (name_producto, value_producto,emp_producto) VALUES (:name, :description, :emp_producto)";
+            $query = "DELETE FROM productos WHERE `id` =:id ";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+    
+            return true;
+        } catch (PDOException $e) {
+            echo 'Error al guardar el producto: ' . $e->getMessage();
+            return false;
+        }
+
+    }
+}
+
 
 
 // Obtener el valor enviado mediante la solicitud POST
@@ -138,7 +168,22 @@ if ($value == 1) {
         // Hubo un error al guardar el producto
         $response = array('status' => 'error', 'message' => 'Error al actualizar el producto en la base de datos.');
     }
-} else {
+}elseif($value == 4){
+
+    $id = $_POST['productId'];
+
+            $producto = new deleteproducto();
+    if ($producto->deleteproducto($id)) {
+        $response = array('status' => 'success');
+    } else {
+        // Hubo un error al guardar el producto
+        $response = array('status' => 'error', 'message' => 'Error al actualizar el producto en la base de datos.');
+    }
+
+} 
+
+
+else {
     // El valor de 'value' no es igual a 1, no se ejecuta la función guardarProducto
     $response = array('status' => 'error', 'message' => 'El valor de "value" no es igual a 1.');
 }
