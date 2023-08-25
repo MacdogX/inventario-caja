@@ -71,9 +71,10 @@
                             <input type="submit" value="Iniciar sesión">
                           </button>
                             <!-- Modal toggle -->
-                          <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2" type="button">
+                       <!--   <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2" type="button">
                             Crear usuario
                           </button>
+-->
                           <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
                             Olvidé la contraseña
                           </a>
