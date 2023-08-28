@@ -23,7 +23,7 @@ class datosproductos{
     public function obtenerProductos($id) {
         try{
         $pdo = $this->connection->conexion();
-        $sql = "SELECT * FROM ventaproducto WHERE id_emp = :id ORDER BY id DESC";
+        $sql = "SELECT * FROM ventaproducto WHERE id_emp = :id ORDER BY id DESC LIMIT 100 ";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();

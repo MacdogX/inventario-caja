@@ -31,9 +31,38 @@ if (isset($_SESSION['correo'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css">
     <style>
-        #example {
+       /* #example {
             font: 90%/1.15em "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
-        }
+        }*/
+        div#example_filter {
+                margin-bottom: 15px;
+            }
+            body{
+    font-family: 'Maven Pro', sans-serif;
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+.col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
+    font-weight: 600;
+}
+.font-medium {
+    font-weight: 600;
+}
+li {
+  /*   word-break: break-all !important;
+    white-space: nowrap !important;
+   width: 150px !important;*/
+}
+td.sm\:text-xs.md\:text-sm.prueba.dtr-hidden {
+    word-break: break-all !important;
+    white-space: nowrap !important;
+    width: 150px !important;
+}
+.flex.flex-col.items-center.bg-indigo-800.p-4 {
+    font-weight: 800;
+}
     </style>
 </head>
 <body>
@@ -44,16 +73,16 @@ if (isset($_SESSION['correo'])) {
          ?>
 <div class="container mx-auto">
     <div class="grid grid-cols-3 gap-4">
-    <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
+    <div class="col-span-3 md:col-span-1 bg-indigo-800 p-2flex flex-col items-center">
     <!-- Modal toggle -->
-    <div class="flex flex-col items-center bg-gray-800 p-4">
-        <h2 class="text-white mb-4 flex items-center">
+    <div class="flex flex-col items-center bg-indigo-800 p-4">
+        <h2 class="text-white dark:text-black-600 mb-4 flex items-center ">
             <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
             Módulo de Registro de Ventas
         </h2>
-        <button class="flex items-center bg-green-500 text-white hover:bg-gray-100 hover:text-gray-700 px-4 py-2 rounded-lg" onclick="openModal()">
+        <button class="flex items-center bg-yellow-400 text-white hover:bg-gray-100 hover:text-gray-700 px-4 py-2 rounded-lg" onclick="openModal()">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-700" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 0a1 1 0 0 1 1 1v8h8a1 1 0 0 1 0 2h-8v8a1 1 0 0 1-2 0v-8H1a1 1 0 1 1 0-2h8V1a1 1 0 0 1 1-1z"/>
             </svg>
@@ -63,23 +92,20 @@ if (isset($_SESSION['correo'])) {
     
    <!-- <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">Agregar Producto</button>-->
 </div>
-        <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
+        <div class="col-span-3 md:col-span-2 p-2">
             <!-- table -->
-            <div class="flex flex-col justify-center items-center">
-                <div class="-m-1.5 overflow-x-auto">
-                    <div class="p-1.5 min-w-full inline-block align-middle">
-                        <div class="border rounded-lg overflow-hidden dark:border-gray-700">
+
+            <div class="col-span-3 md:col-span-2 p-4">
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                             <table id='example' class='display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden' style='width:100%'>
-                                <thead class="bg-gray-900">
-                                    <tr class="text-white text-left">
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Id</th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Cantidad</th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Precio</th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">Acción</th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">Producto</th>
-                                        
-                                        
-                                    </tr>
+                                <thead class="bg-indigo-800">
+                                    <tr class="text-white text-center">
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 text-center">Id</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 text-center">Cantidad</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 text-center">Precio</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 text-center">Acción</th>
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 text-center prueba ">Producto</th>
+                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-gray-50">
                                     <?php 
@@ -90,16 +116,16 @@ if (isset($_SESSION['correo'])) {
                                     $productos = $datosProductos->obtenerProductos($id);
                                     foreach ($productos as $producto): ?>
                                     <tr>
-                                        <td class="sm:text-xs md:text-sm"><?php echo $producto['id']; ?></td>
-                                        <td class="sm:text-xs md:text-sm"><?php echo $producto['cantidad']; ?></td>
+                                        <td class="sm:text-xs md:text-sm text-center"><?php echo $producto['id']; ?></td>
+                                        <td class="sm:text-xs md:text-sm text-center"><?php echo $producto['cantidad']; ?></td>
                                         <td class="sm:text-xs md:text-sm"><?php echo $producto['precio']; ?></td>
                                         
-                                        <td class="sm:text-xs md:text-sm"> 
+                                        <td class="sm:text-xs md:text-sm text-center"> 
                                         <a href="#" class="text-white text-sm bg-green-400 font-semibold px-2 rounded-full" onclick="openEliminar(<?php echo $producto['id']; ?>, '<?php echo $producto['cantidad']; ?>', '<?php echo $producto['precio']; ?>', '<?php echo $producto['nombre']; ?>')">Eliminar</a>   
                                         </td>
                                         
-                                        <td class="sm:text-xs md:text-sm"><?php echo $producto['nombre']; ?></td>
-                                       <!-- <td class="sm:text-xs md:text-sm"><//?php  $nombreReducido = strlen($producto['nombre']) > 10 ? substr($producto['nombre'], 0, 10) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>-->
+                                      <!--  <td class="sm:text-xs md:text-sm prueba">< //?php echo $producto['nombre']; ?></td>-->
+                                        <td class="sm:text-xs md:text-sm text-center"><?php  $nombreReducido = strlen($producto['nombre']) > 27 ? substr($producto['nombre'], 0, 27) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>
                                        
                                     </tr>
                                     <?php endforeach; ?>
@@ -114,8 +140,7 @@ if (isset($_SESSION['correo'])) {
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -128,16 +153,16 @@ if (isset($_SESSION['correo'])) {
             <h2 class="text-xl font-bold mb-4">Ingreso de Producto</h2>
             <form id="productForm" onsubmit="saveProduct(); return false;">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre:</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre Producto:</label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="name" name="name" type="text" placeholder="Ingrese el nombre del producto" oninput="convertirAMayusculas()" required>                    
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Cantidad:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="price" name="price" type="number" step="0.01" placeholder="Ingrese el precio del producto" required>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="price" name="price" type="number" step="0.01" placeholder="Ingrese la cantidad" required>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="$$$ Ingrese el precio" required>
                 </div>
                 <div class="flex justify-end">
                 <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">

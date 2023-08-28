@@ -5,5 +5,3 @@ menu.onclick = () => {
     navbar.classList.toggle('active');
 }
 
-let x = 1
-console.log(x)

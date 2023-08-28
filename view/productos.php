@@ -50,16 +50,16 @@ if (isset($_SESSION['correo'])) {
             
             <div class="grid grid-cols-3 gap-4">
                 <!--Barra De INFORMACION DE ENTORNO  -->
-                    <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
-                        <h2 class="text-white mb-4">Agregar productos al inventario</h2>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg" onclick="openModal()">Agregar Producto</button>
+                    <div class="col-span-3 md:col-span-1 bg-indigo-800 p-4 flex flex-col items-center">
+                        <h2 class="text-white mb-4">Agregar Productos al Inventario</h2>
+                        <button class="bg-green-400 hover:bg-blue-700 text-white py-2 px-4 rounded-lg  " onclick="openModal()">Agregar Producto</button>
                     </div>
                 <!--Barra Final De INFORMACION DE ENTORNO  -->
                 <!--TABLE DE LA INFORMACION-->
-                    <div class="col-span-3 md:col-span-2 bg-gray-200 p-4">
+                    <div class="col-span-3 md:col-span-2 p-4">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <table class="display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden" id="example">
-                                        <thead class="bg-gray-900 text-white uppercase">
+                                        <thead class="bg-indigo-800 text-white uppercase">
                                     <tr>
                                         <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
                                             Id
@@ -119,7 +119,7 @@ if (isset($_SESSION['correo'])) {
                                 </div>
                                 <div class="mb-4">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Precio del producto</label>
-                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="Ingrese la descripción del producto" required>
+                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight" id="description" name="description" type="number" rows="3" placeholder="$$$ Ingrese el precio del producto" required>
                                 </div>
                                 <div class="flex justify-end">
                                     <input type="hidden" value="1" id="value" name="value">
@@ -182,9 +182,10 @@ if (isset($_SESSION['correo'])) {
                                         <input type="hidden" value="2" id="value" name="value">
                                         <input type="hidden" id="usuariocode" name="usuariocode" value="<?php echo $id; ?>">
                                         <input type="hidden" id="modalProductId" value=""> <!-- Campo para almacenar el ID del producto -->
-                                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Guardar</button>
-                                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" type="button" onclick="closeEditModal()">Cancelar</button>
                                         <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2" type="button" onclick="deleteProduct()">Eliminar</button>
+                                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" type="submit">Guardar</button>
+                                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-2" type="button" onclick="closeEditModal()">Cancelar</button>
+                                        
                                     </div>
                                 </form>
                             </div>

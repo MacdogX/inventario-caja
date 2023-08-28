@@ -93,6 +93,19 @@ canvas#barChart {
             justify-content: center;
             align-items: center;
         }
+        body{
+    font-family: 'Maven Pro', sans-serif;
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+.col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
+    font-weight: 600;
+}
+.font-medium {
+    font-weight: 600;
+}
 </style>
 
 </head>
@@ -106,7 +119,7 @@ canvas#barChart {
 
             <div class="grid grid-cols-3 gap-4">
                 <!--LINEA NEGRA-->
-                    <div class="col-span-3 md:col-span-1 bg-gray-800 p-4 flex flex-col items-center">
+                    <div class="col-span-3 md:col-span-1 bg-indigo-800 p-4 flex flex-col items-center">
                         <!-- Modal toggle -->
                         <h2 class="text-white mb-4">Modulo de estadistica</h2>
                     </div>
