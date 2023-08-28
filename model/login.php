@@ -59,7 +59,7 @@ class Usuario
               title: 'Error',
               text: 'Problema con su usuario y contraseña'
             }).then(function() {
-              window.location.href = '../index.php'; // Reemplaza 'nueva_pagina.php' con la URL de la página a la que deseas redirigir
+              window.location.href = '../index.php';
             });
           </script>";
         }
