@@ -94,11 +94,13 @@ canvas#barChart {
             align-items: center;
         }
         body{
+
     font-family: 'Maven Pro', sans-serif;
     font-family: 'Permanent Marker', cursive;
     font-family: 'Playfair Display', serif;
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
+    
 }
 .col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
     font-weight: 600;
@@ -387,72 +389,110 @@ var colores = [
             });
         });
 
-        function obtenerProductosPorFecha(fechaInicio, fechaFin, usuariocode) {
+
+
+      
+
+    function obtenerProductosPorFecha(fechaInicio, fechaFin, usuariocode) {
             fetch(`../model/consultar.php?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&usuariocode=${usuariocode}`)
                 .then(response => response.json())
                 .then(data => mostrarProductos(data.productos))
                 .catch(error => console.error('Error al obtener los datos:', error));
         }
-        function formatNumberWithCommas(number) {
+    function formatNumberWithCommas(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        function mostrarProductos(productos) {
-    const resultadoDiv = document.getElementById("resultado");
-    resultadoDiv.innerHTML = "";
-    if (productos.length === 0) {
-        resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
-        return;
-    }
+    function mostrarProductos(productos) {
 
-    const table = document.createElement("table");
-    table.id = "miTabla";
-    table.classList.add("table-auto", "w-full", "border", "border-gray-300", "text-center", "display");
+                        const resultadoDiv = document.getElementById("resultado");
+                        resultadoDiv.innerHTML = "";
 
-    const thead = document.createElement("thead");
-    const trHead = document.createElement("tr");
-    const thNombre = document.createElement("th");
-    thNombre.textContent = "Nombre del producto";
-    thNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
-    const thPrecio = document.createElement("th");
-    thPrecio.textContent = "Precio";
-    thPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
-    trHead.appendChild(thNombre);
-    trHead.appendChild(thPrecio);
-    thead.appendChild(trHead);
+                        // Crear un nuevo elemento h1
+                        var nuevoH1 = document.createElement("h1");
+                        var br = document.createElement("br");
+                        // Asignar texto al elemento h1
+                        nuevoH1.textContent = "La informacion que se muestra en el tablero es la venta de los productos en su totalidad de la fecha del filtro";
 
-    const tbody = document.createElement("tbody");
-    productos.forEach(producto => {
-        const tr = document.createElement("tr");
-        const tdNombre = document.createElement("td");
-        tdNombre.textContent = producto.nombre;
-        tdNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
-        const tdPrecio = document.createElement("td");
+                        // Obtener la referencia al elemento existente antes del cual deseas insertar el h1
+                        var referenciaElemento = resultadoDiv;
 
-        // Convertir el precio a número y formatear con puntos para separar miles y dos decimales
-        const precioNumero = parseFloat(producto.precio);
-        const precioFormateado = precioNumero.toLocaleString("en-US", { minimumFractionDigits: 0 });
+                        // Insertar el nuevo h1 antes del elemento de referencia
+                        referenciaElemento.parentNode.insertBefore(nuevoH1, referenciaElemento);
 
-        // Formatear el precio con el símbolo de pesos
-        const precioConSimbolo = "$" + precioFormateado;
-        tdPrecio.textContent = precioConSimbolo;
-        tdPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
-        tr.appendChild(tdNombre);
-        tr.appendChild(tdPrecio);
-        tbody.appendChild(tr);
-    });
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    resultadoDiv.appendChild(table);
 
-    // Inicializar DataTables
-    $(document).ready(function () {
-        $('#miTabla').DataTable({
-            "order": [[1, "desc"]] // 1 indica la columna del precio (la primera columna es 0)
-        });
-    });
-}
-   
+                        // Calcular el valor total de todos los productos
+                        var valorTotal = 0;
+                            productos.forEach(producto => {
+                                const precioNumero = parseFloat(producto.precio);
+                                valorTotal += precioNumero;
+                            });
+
+                            // Crear un nuevo elemento <span> para mostrar el valor total
+                            var spanValorTotal = document.createElement("span");
+                            spanValorTotal.textContent = "Valor total de productos: $" + valorTotal.toFixed(2); // Formatear el valor total con dos decimales
+                            spanValorTotal.classList.add("m-8","px-4", "py-2", "border", "border-gray-300");
+                            referenciaElemento.parentNode.insertBefore(spanValorTotal, referenciaElemento.nextSibling); // Insertar el <span> después del h1
+
+                            if (productos.length === 0) {
+                                resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
+                                return;
+                            }
+
+
+                        if (productos.length === 0) {
+                            resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
+                            return;
+                        }
+                            
+                        const table = document.createElement("table");
+                        table.id = "miTabla";
+                        table.classList.add("table-auto", "w-full", "border", "border-gray-300", "text-center", "display");
+
+                        const thead = document.createElement("thead");
+                        const trHead = document.createElement("tr");
+                        const thNombre = document.createElement("th");
+                        thNombre.textContent = "Nombre del producto";
+                        thNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+                        const thPrecio = document.createElement("th");
+                        thPrecio.textContent = "Precio";
+                        thPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+                        trHead.appendChild(thNombre);
+                        trHead.appendChild(thPrecio);
+                        thead.appendChild(trHead);
+
+                        const tbody = document.createElement("tbody");
+                        productos.forEach(producto => {
+                            const tr = document.createElement("tr");
+                            const tdNombre = document.createElement("td");
+                            tdNombre.textContent = producto.nombre;
+                            tdNombre.classList.add("px-4", "py-2", "border", "border-gray-300");
+                            const tdPrecio = document.createElement("td");
+
+                            // Convertir el precio a número y formatear con puntos para separar miles y dos decimales
+                            const precioNumero = parseFloat(producto.precio);
+                            const precioFormateado = precioNumero.toLocaleString("en-US", { minimumFractionDigits: 0 });
+
+                            // Formatear el precio con el símbolo de pesos
+                            const precioConSimbolo = "$" + precioFormateado;
+                            tdPrecio.textContent = precioConSimbolo;
+                            tdPrecio.classList.add("px-4", "py-2", "border", "border-gray-300");
+                            tr.appendChild(tdNombre);
+                            tr.appendChild(tdPrecio);
+                            tbody.appendChild(tr);
+                        });
+                        table.appendChild(thead);
+                        table.appendChild(tbody);
+                        resultadoDiv.appendChild(table);
+
+                        
+                        // Inicializar DataTables
+                        $(document).ready(function () {
+                            $('#miTabla').DataTable({
+                                "order": [[1, "desc"]] // 1 indica la columna del precio (la primera columna es 0)
+                            });
+                        });
+                    }
     </script>
 
 

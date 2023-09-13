@@ -3,7 +3,9 @@ table {border-collapse: collapse;}
     font-family: 'Maven Pro', sans-serif;
     font-family: 'Permanent Marker', cursive;
     font-family: 'Playfair Display', serif;
-    font-family: 'Roboto', sans-serif;}
+    font-family: 'Roboto', sans-serif;
+        }
+
 div#example_filter {
     margin-bottom: 15px;
 }
@@ -21,3 +23,18 @@ body{
 .font-medium {
     font-weight: 600;
 }
+
+li {
+    text-wrap: initial;
+    white-space:normal;
+   /* width:200px;*/
+}
+
+@media (max-width: 600px) {
+    .col-span-3.md\:col-span-2.p-4 {
+        font-size: 13px;
+    }
+    th.font-semibold.text-sm.uppercase.px-6.py-4.id.sorting.sorting_desc {
+        width: 50px !important;
+    }
+  }

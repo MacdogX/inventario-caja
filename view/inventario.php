@@ -30,6 +30,7 @@ if (isset($_SESSION['correo'])) {
     <!-- Otras librerías y estilos -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css">
+
     <style>
        /* #example {
             font: 90%/1.15em "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
@@ -43,6 +44,7 @@ if (isset($_SESSION['correo'])) {
     font-family: 'Playfair Display', serif;
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
+   
 }
 .col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
     font-weight: 600;
@@ -63,6 +65,25 @@ td.sm\:text-xs.md\:text-sm.prueba.dtr-hidden {
 .flex.flex-col.items-center.bg-indigo-800.p-4 {
     font-weight: 800;
 }
+td.sm\:text-xs.md\:text-sm.text-center {
+    font-size: 16px;
+}
+td {
+    white-space: nowrap; /* Impide que los datos se envuelvan */
+    overflow: hidden; /* Oculta el contenido que desborda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos (...) si el contenido es demasiado ancho */
+    padding: 8px;
+  }
+
+
+  li {
+    text-wrap: initial;
+    white-space:normal;
+   /* width:200px;*/
+}
+
+
+
     </style>
 </head>
 <body>
@@ -124,8 +145,8 @@ td.sm\:text-xs.md\:text-sm.prueba.dtr-hidden {
                                         <a href="#" class="text-white text-sm bg-green-400 font-semibold px-2 rounded-full" onclick="openEliminar(<?php echo $producto['id']; ?>, '<?php echo $producto['cantidad']; ?>', '<?php echo $producto['precio']; ?>', '<?php echo $producto['nombre']; ?>')">Eliminar</a>   
                                         </td>
                                         
-                                      <!--  <td class="sm:text-xs md:text-sm prueba">< //?php echo $producto['nombre']; ?></td>-->
-                                        <td class="sm:text-xs md:text-sm text-center"><?php  $nombreReducido = strlen($producto['nombre']) > 27 ? substr($producto['nombre'], 0, 27) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>
+                                        <td class="sm:text-xs md:text-sm prueba"><?php echo $producto['nombre']; ?></td>
+                                    <!--    <td class="sm:text-xs md:text-sm text-center"><?php  $nombreReducido = strlen($producto['nombre']) > 27 ? substr($producto['nombre'], 0, 27) . "..." : $producto['nombre']; echo $nombreReducido; ?></td>-->
                                        
                                     </tr>
                                     <?php endforeach; ?>

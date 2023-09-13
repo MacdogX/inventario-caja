@@ -1,13 +1,23 @@
 // Realiza el llamado del datable 
+
 $(document).ready(function () {
   $('#example').DataTable({
       "pageLength": 15,
       order: [[0, 'desc']],
       language: {
         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-    },
+        search: 'Buscar producto',
+    }, 
+    
   });
+
 });
+
+var table = $('#example').DataTable();
+ 
+$('#container').css( 'display', 'block' );
+table.columns.adjust().draw();
+
 
 //Transforma las letras de los productos en mayuscula
 function convertirAMayusculas() {

@@ -58,17 +58,17 @@ if (isset($_SESSION['correo'])) {
                 <!--TABLE DE LA INFORMACION-->
                     <div class="col-span-3 md:col-span-2 p-4">
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <table class="display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden" id="example">
+                                <table class="display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden dataTable dtr-inline collapsed" id="example" cellspacing="0" width="100%" >
                                         <thead class="bg-indigo-800 text-white uppercase">
                                     <tr>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Id
+                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 id">
+                                            Codigo
                                         </th>
                                         <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Nombre del producto
+                                            Precio :
                                         </th>
                                         <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Precio
+                                            Nombre del producto:
                                         </th>
                                         <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
                                             Acción
@@ -87,11 +87,11 @@ if (isset($_SESSION['correo'])) {
                                         <th scope="row" class="text-center px-6 py-4 font-medium text-blue-250 whitespace-nowrap dark:text-blue-200">
                                             <?php echo $productoItem['id']; ?>
                                         </th>
-                                        <td class="px-6 py-4 text-center ">
-                                            <?php echo $productoItem['name_producto']; ?>
-                                        </td>
                                         <td class="px-6 py-4 text-center">
                                             <?php echo $productoItem['value_producto']; ?>
+                                        </td>
+                                        <td class="px-6 py-4 text-center ">
+                                              <?php echo $productoItem['name_producto']; ?>
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             <a href="#" class="text-white text-sm w-1/3 pb-1 bg-blue-400 font-semibold px-2 rounded-full" onclick="openEditModal(<?php echo $productoItem['id']; ?>, '<?php echo $productoItem['name_producto']; ?>', '<?php echo $productoItem['value_producto']; ?>')">
