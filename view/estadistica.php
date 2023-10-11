@@ -48,10 +48,10 @@
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
-        display: none;
+        display: block;
     }
     #filtrodata{
-        display: none;
+        display: block;
     }
 }
 
@@ -67,10 +67,10 @@
     }
     /* Estilos para el elemento con id "informacion" */
     #informacion {
-        display: none;
+        display: block;
     }
     #filtrodata{
-        display: none;
+       display: block;
     }
 }
 
@@ -223,7 +223,7 @@ canvas#barChart {
                 <div class="w-full lg:w-1/2 p-4">   
                     <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
                         <div id="chartContainer" class="" style="position: relative; width: 100%; ">
-                            <canvas id="barChart" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+                            <canvas id="barChart" style=" top: 0; left: 0; width: 100%; height: 100%;"></canvas>
                     </div>
                 </div>  
              <!--Final-->   
@@ -404,8 +404,8 @@ var colores = [
         }
 
     function mostrarProductos(productos) {
-
                         const resultadoDiv = document.getElementById("resultado");
+                        resultadoDiv.classList.add("my-8");
                         resultadoDiv.innerHTML = "";
 
                         // Crear un nuevo elemento h1
@@ -430,9 +430,10 @@ var colores = [
 
                             // Crear un nuevo elemento <span> para mostrar el valor total
                             var spanValorTotal = document.createElement("span");
-                            spanValorTotal.textContent = "Valor total de productos: $" + valorTotal.toFixed(2); // Formatear el valor total con dos decimales
-                            spanValorTotal.classList.add("m-8","px-4", "py-2", "border", "border-gray-300");
+                            spanValorTotal.textContent = "Valor total de productos: $ " + valorTotal.toLocaleString('en-US', { minimumFractionDigits: 0 }); // Formatear el valor total con dos decimales y el formato en-US
+                            spanValorTotal.classList.add("m-8","px-4", "py-2", "border", "border-gray-300","my-6");
                             referenciaElemento.parentNode.insertBefore(spanValorTotal, referenciaElemento.nextSibling); // Insertar el <span> después del h1
+
 
                             if (productos.length === 0) {
                                 resultadoDiv.textContent = "No se encontraron productos en las fechas seleccionadas.";
@@ -471,7 +472,7 @@ var colores = [
 
                             // Convertir el precio a número y formatear con puntos para separar miles y dos decimales
                             const precioNumero = parseFloat(producto.precio);
-                            const precioFormateado = precioNumero.toLocaleString("en-US", { minimumFractionDigits: 0 });
+                            const precioFormateado = precioNumero.toLocaleString('en-US', { minimumFractionDigits: 0 });
 
                             // Formatear el precio con el símbolo de pesos
                             const precioConSimbolo = "$" + precioFormateado;

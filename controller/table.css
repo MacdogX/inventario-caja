@@ -29,6 +29,19 @@ li {
     white-space:normal;
    /* width:200px;*/
 }
+a.text-white.text-sm.w-1\/3.pb-1.bg-blue-400.font-semibold.px-2.rounded-full.boton {
+    font-size: 20px !important;
+}
+
+@media (max-width: 768px) {
+    td.prueba {
+      max-width: 100%; /* Establece el ancho máximo al 100% del contenedor padre */
+      overflow: auto;   /* Agrega barras de desplazamiento cuando sea necesario */
+      white-space: normal; /* Permite que el texto se divida automáticamente */
+      font-size: 10px;
+    }
+  }
+
 
 @media (max-width: 600px) {
     .col-span-3.md\:col-span-2.p-4 {

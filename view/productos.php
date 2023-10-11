@@ -46,65 +46,67 @@ if (isset($_SESSION['correo'])) {
         // Crear una instancia de la clase Database
         $database = new Connection;
 ?>
-<div class="container mx-auto">
+<div class="container mx-auto bg-blue-50">
             
-            <div class="grid grid-cols-3 gap-4">
-                <!--Barra De INFORMACION DE ENTORNO  -->
+            <div class="grid grid-cols-3 gap-4 ">
+            
+            <!--Barra De INFORMACION DE ENTORNO  -->
                     <div class="col-span-3 md:col-span-1 bg-indigo-800 p-4 flex flex-col items-center">
                         <h2 class="text-white mb-4">Agregar Productos al Inventario</h2>
                         <button class="bg-green-400 hover:bg-blue-700 text-white py-2 px-4 rounded-lg  " onclick="openModal()">Agregar Producto</button>
                     </div>
                 <!--Barra Final De INFORMACION DE ENTORNO  -->
                 <!--TABLE DE LA INFORMACION-->
-                    <div class="col-span-3 md:col-span-2 p-4">
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <table class="display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden dataTable dtr-inline collapsed" id="example" cellspacing="0" width="100%" >
-                                        <thead class="bg-indigo-800 text-white uppercase">
-                                    <tr>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 id">
-                                            Codigo
-                                        </th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Precio :
-                                        </th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Nombre del producto:
-                                        </th>
-                                        <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
-                                            Acción
-                                        </th>
-                
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-gray-50">
-                                    <?php 
-                                    include_once '../model/traerdatos.php';
-                                    $datosProductos = new datosproductos();
-                                    $productos = $datosProductos->obternerproducto($id);
-                                    foreach ($productos as $productoItem):
-                                    ?>
-                                    <tr class="bg-blue-300 border-b border-blue-400 ">
-                                        <th scope="row" class="text-center px-6 py-4 font-medium text-blue-250 whitespace-nowrap dark:text-blue-200">
-                                            <?php echo $productoItem['id']; ?>
-                                        </th>
-                                        <td class="px-6 py-4 text-center">
-                                            <?php echo $productoItem['value_producto']; ?>
-                                        </td>
-                                        <td class="px-6 py-4 text-center ">
-                                              <?php echo $productoItem['name_producto']; ?>
-                                        </td>
-                                        <td class="px-6 py-4 text-center">
-                                            <a href="#" class="text-white text-sm w-1/3 pb-1 bg-blue-400 font-semibold px-2 rounded-full" onclick="openEditModal(<?php echo $productoItem['id']; ?>, '<?php echo $productoItem['name_producto']; ?>', '<?php echo $productoItem['value_producto']; ?>')">
-                                                <i class="fas fa-pencil-alt mr-1"></i> Editar
-                                            </a>
-                                        </td>
-                        
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="col-span-3 md:col-span-2 p-4 bg-white ">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                     <!--   <table class="display responsive nowrap mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden dataTable dtr-inline collapsed" id="example" cellspacing="0" width="100%">-->
+                            <table class=" display responsive nowrap mx-auto rounded-lg overflow-hidden " id="example" cellspacing="0" width="100%" >    
+                             <thead class="bg-indigo-800 text-white uppercase">
+                                <tr>
+                                    <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 id">
+                                        Codigo
+                                    </th>
+                                    <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">
+                                        Nombre del producto:
+                                    </th>
+                                    <th scope="col" class="font-semibold text-sm uppercase px-6 py-4">
+                                        Precio :
+                                    </th>
+                                    <th scope="col" class="font-semibold text-sm uppercase px-6 py-4 ">
+                                        Acción
+                                    </th>
+                                </tr>
+                            </thead>
+                         
+                       <tbody class="">
+                                <?php 
+                                include_once '../model/traerdatos.php';
+                                $datosProductos = new datosproductos();
+                                $productos = $datosProductos->obternerproducto($id);
+                                foreach ($productos as $productoItem):
+                                ?>
+                                <tr class="">
+                                    <th scope="row" class="text-center px-6 py-4 ">
+                                        <?php echo $productoItem['id']; ?>
+                                    </th>
+
+                                    <td class="px-6 py-4 text-center prueba " id="mi-td">
+                                        <?php echo $productoItem['name_producto']; ?>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <?php echo $productoItem['value_producto']; ?>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <a href="#" class="text-white text-sm w-1/3 pb-1 bg-blue-400 font-semibold px-2 rounded-full boton" onclick="openEditModal(<?php echo $productoItem['id']; ?>, '<?php echo $productoItem['name_producto']; ?>', '<?php echo $productoItem['value_producto']; ?>')">
+                                            <i class="fas fa-pencil-alt mr-1"></i> Editar
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
+                </div>
                 <!--Final TABLE DE LA INFORMACION-->
 
 
@@ -215,6 +217,8 @@ if (isset($_SESSION['correo'])) {
 
   
             
+<script>
 
+</script>
 </body>
 </html>
