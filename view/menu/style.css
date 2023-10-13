@@ -1,7 +1,9 @@
 :root{
     --main-color:#5352ed;
-    --lighter-color:#f7f7ff;
+ /*   --lighter-color:#f7f7ff;*/
     --dark-color:#2f3542;
+    --lighter-color:  #D2E0FB;
+
 }
 *{
     margin: 0;
@@ -9,19 +11,19 @@
 }
 *,::before,::after{
     box-sizing: border-box;
-}
+}/*
 html{
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-}
-
+}*/
+/*
 body{
     font-family: sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.8;
     color:var(--dark-color)
-}
+}*/
 a{
     text-decoration: none;
     color: inherit;
@@ -29,31 +31,31 @@ a{
 ul{
     list-style: none;
 }
-.container{
+.containerr{
     max-width: 100%;
     margin: 0 auto;
 }
-nav{
+nav.nav{
     position: fixed;
-    bottom: 10%;
-    width: 440px;
+    bottom: 3%;
+    width: 275px;
     background-color: var(--lighter-color);
     left: 50%;
-    margin-left: -228px;
+    margin-left: -150px;
     padding: 0 2em;
     border-radius: 40px;
     box-shadow: rgb(50 50 93 / 25%) 0 50px 100px -20px,
                 rgb(0 0 0 / 30%) 0 30px 60px -30px;
     overflow: hidden;
 }
-nav ul {
+nav.nav ul {
     display: flex;
     align-items: center;
 }
-nav :where(li, a){
+nav.nav :where(li, a){
     position: relative;
 }
-nav ul li a{
+nav.nav ul li a{
 display: flex;
 align-items: center;
 justify-content: center;
@@ -61,20 +63,20 @@ flex-direction: column-reverse;
 padding: 1em;
 font-size: 1.5em;
 line-height: 1.4;
-width: 80px;
-height: 80px;
+width: 70px;
+height: 70px;
 -webkit-transition: all .3s ease-out ;
 transition: all .3s ease-out ;
 }
-nav ul li a:hover{
-    color: var(--main-color);
+nav.nav ul li a:hover{
+    color: #fff;
 }
-nav ul li a span {
+nav.nav ul li a span {
     font-size: 10px;
 }
 
 /*animation*/
-nav li::before,nav li::after{
+nav.nav li::before,nav li::after{
     content: '';
     position: absolute;
     top: 1px;
@@ -83,22 +85,23 @@ nav li::before,nav li::after{
     top: 25px;
     transition: top .3s;
 }
-nav li.active::before{
+nav.nav li.active::before{
     left: -20px;
     border-radius: 0 0 30px 0;
 }
-nav li.active::after{
+nav.nav li.active::after{
     right: -20px;
     border-radius: 0 0 0 30px;
 }
-nav li.active::before,nav li.active::after{
+nav.nav li.active::before,nav.nav li.active::after{
     background-color: var(--lighter-color);
     top: 1px;
 }
-nav li a::before, nav li a::after{
+nav.nav li a::before, nav.nav li a::after{
     content: '';
     position: absolute;
-    background-color: var(--main-color);
+    background-color: #C51605;
+   /* background-color: var(--main-color);*/
     z-index: -1;
     border-radius:10px 10px 0 0 ;
     -webkit-transform: translateY(15px);
@@ -107,29 +110,29 @@ nav li a::before, nav li a::after{
     transition:transform .3s, border-radius .3s;
 
 }
-nav li.active a::before, nav li.active a::after{
+nav.nav li.active a::before, nav.nav li.active a::after{
     -webkit-transform: translateY(0);
     transform: translateY(0);
 }
 
-nav li.active a::before{
+nav.nav li.active a::before{
     top: 10px;
     left: 10px;
     width: calc(100% - 20px);
     height: 100%;
     border-radius: 30px 30px 0 0;
 }
-nav li.active a::after{
+nav.nav li.active a::after{
     left: -10px;
     bottom: 0;
     width: 100px;
     height: 40px;
 }
-nav li.active a{
+nav.nav li.active a{
     color: var(--lighter-color);
 }
 
-nav li .label{
+nav.nav li .label{
     position: absolute;
     top: 10px;
     max-width: 20px;
@@ -141,22 +144,22 @@ nav li .label{
     z-index: 1;
     border-radius: 3px ;
 }
-nav li .sale{
+nav.nav li .sale{
     right: 5px;
     color: #ff6b91;
     background-color:#ff6b9133;
 }
-nav li .cart{
+nav.nav li .cart{
     right: 15px;
     color: #ffa502;
     background-color:#ffa50233 ;
 }
-nav li.active .sale{
+nav.nav li.active .sale{
     color: var(--lighter-color);
     background-color: #ff6b91;
 }
 
-nav li.active .cart{
+nav.nav li.active .cart{
     color: var(--lighter-color);
     background-color: #ffa502;
 }

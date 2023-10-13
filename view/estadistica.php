@@ -10,6 +10,7 @@
         header("Location: ../index.php");
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,87 +29,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../controller/estadistica.css">
 
     <!-- Estilos CSS adicionales y otras etiquetas head si las tienes -->
 
-    <style>
-/* Estilos para pantallas de 601 píxeles en adelante */
-@media only screen and (min-width: 601px) {
-    /* Estilos para el contenedor del gráfico */
-    #chartContainer {
-        padding-bottom: 100% !important;
-    }
-    /* Estilos para el gráfico de barras */
-    canvas#barChart {
-        height: 598px !important;
-        width: 449px !important;
-        
-    }
-    /* Estilos para el elemento con id "informacion" */
-    #informacion {
-        display: block;
-    }
-    #filtrodata{
-        display: block;
-    }
-}
 
-/* Estilos para pantallas de 600 píxeles o menos */
-@media only screen and (max-width: 600px) {
-    /* Estilos para el contenedor del gráfico */
-    #chartContainer {
-        /* padding-bottom: 100% !important; */
-    }
-    /* Estilos para el gráfico de barras */
-    canvas#barChart {
-        height: 500px !important;
-    }
-    /* Estilos para el elemento con id "informacion" */
-    #informacion {
-        display: block;
-    }
-    #filtrodata{
-       display: block;
-    }
-}
+    <!--Liberia de menu-->
 
-/* Estilos para hacer el gráfico responsive con Tailwind CSS */
-#chartContainer {
-    @apply relative;
-    @apply w-full;
-    @apply aspect-w-1 aspect-h-1;
-}
-canvas#barChart {
-    @apply absolute top-0 left-0 w-full h-full;
-}
-/* Estilos opcionales para el div */
-.icon-div {
-           border-radius: 12px;
-            width: 100px; /* Ajusta el ancho según tus necesidades */
-            height: 100px; /* Ajusta la altura según tus necesidades */
-            background-color: #EAA832; /* Fondo del div */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        body{
-
-    font-family: 'Maven Pro', sans-serif;
-    font-family: 'Permanent Marker', cursive;
-    font-family: 'Playfair Display', serif;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
-    
-}
-.col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
-    font-weight: 600;
-}
-.font-medium {
-    font-weight: 600;
-}
-</style>
+    <link rel="stylesheet" href="../view/menu/style.css">
 
 </head>
 
@@ -116,6 +45,7 @@ canvas#barChart {
 <body>
 
     <?php include '../view/nav/nav.php'; ?>
+    <?php   include '../view/menu/barmenu.html'?>
 
     <div class="container mx-auto">
 
@@ -222,7 +152,7 @@ canvas#barChart {
             <!--Grafica de ganacias-->
                 <div class="w-full lg:w-1/2 p-4">   
                     <h2 class="text-center font-bold py-4">Gráfico de Barras - Ganancias diarias</h2>
-                        <div id="chartContainer" class="" style="position: relative; width: 100%; ">
+                        <div id="chartContainer" class="" style=" width: 100%; ">
                             <canvas id="barChart" style=" top: 0; left: 0; width: 100%; height: 100%;"></canvas>
                     </div>
                 </div>  
@@ -262,110 +192,33 @@ canvas#barChart {
 
 
 
-</div>
+  </div>
+
+<!-- SCRIPT de barmenu-->
+<script src="../view/menu/script.js"></script>
+
+
 <!-- Agrega las referencias a las librerías de jQuery y DataTables -->
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
+<script scrt=""></script>
 
 <!-- Script del gráfico -->
 <script>
   // Obtener los datos de PHP y convertirlos a formato JavaScript
+
   var nombres = <?php echo json_encode($nombres); ?>;
   var ganancias = <?php echo json_encode($ganancias); ?>;
 
-// Define un array de colores para cada barra
-var colores = [
+        // Crear un elemento script
+        var nuevoScript = document.createElement('script');
 
-  'rgba(54, 162, 235, 0.5)',   // Azul claro
-  'rgba(255, 206, 86, 0.5)',   // Amarillo claro
-  'rgba(75, 192, 192, 0.5)',   // Verde claro
-  'rgba(153, 102, 255, 0.5)',  // Violeta claro
-  'rgba(255, 159, 64, 0.5)',   // Naranja claro
-  'rgba(255, 215, 64, 0.5)',   // Oro claro
-  'rgba(144, 238, 144, 0.5)',  // Verde bosque claro
-  'rgba(0, 191, 255, 0.5)',    // Azul cielo claro
-  'rgba(255, 182, 193, 0.5)',   // Rosa claro
-  'rgba(255, 99, 132, 0.5)'  // Rojo claro
-  // Puedes agregar más colores si lo deseas
-];
+        // Asignar la fuente (ruta) del script que deseas cargar
+        nuevoScript.src = '../controller/graficosgananciadiaria.js';
 
-  // Crear el contexto del gráfico
-  var ctx = document.getElementById('barChart').getContext('2d');
-
-  // Crear el gráfico de barras verticales utilizando Chart.js
-  var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: nombres,
-      datasets: [{
-        label: 'Ganancias',
-        data: ganancias,
-        backgroundColor: colores, // Color de las barras
-        borderColor: 'rgba(0, 123, 255, 1)', // Color del borde de las barras
-        borderWidth: 1, // Ancho del borde de las barras
-        indexLabelFontSize: 20
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        x: {
-          beginAtZero: true, // Comenzar el eje x desde cero
-          ticks: {
-            font: {
-              size: 18, // Ajustar el tamaño de la fuente en el eje x
-              family: 'Lato', // Cambiar el tipo de fuente
-            
-              style:'normal'
-            },
-            maxRotation: 80, // Rotar las etiquetas en un ángulo de 45 grados
-            minRotation: 80 // Rotar las etiquetas en un ángulo de 45 grados
-          }
-        },
-        y: {
-          beginAtZero: true, // Comenzar el eje y desde cero
-          ticks: {
-            font: {
-              size: 16 // Ajustar el tamaño de la fuente en el eje y
-            },
-            callback: function(value, index, values) {
-              return value.toLocaleString('en-US', {minimumFractionDigits: 0}); // Mostrar números con separadores de miles
-            }
-          }
-        }
-      },
-      plugins: {
-        legend: {
-          display: false // Ocultar la leyenda
-        },
-        title: {
-          display: true,
-          text: '', // Título del gráfico
-          fontSize: 16 // Tamaño de la letra del título
-        }
-      },
-      // Ajusta el ancho de las barras
-      barPercentage: 0.8, // Controla el ancho de las barras
-      categoryPercentage: 0.8, // Controla el espacio entre las barras
-      // Ajustes para el cuadro de información al pasar el mouse sobre las barras
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
-      tooltips: {
-        mode: 'index',
-        intersect: false,
-        titleFontSize: 18, // Tamaño de la fuente del título del cuadro
-        bodyFontSize: 18, // Tamaño de la fuente del contenido del cuadro
-        bodySpacing: 8, // Espaciado entre líneas en el cuadro
-        padding: 12, // Padding del cuadro
-        displayColors: false // No mostrar los cuadros de color de la leyenda
-      }
-    }
-  });
+        // Adjuntar el nuevo script al documento
+        document.body.appendChild(nuevoScript);
 </script>
-
 
 
 <script>
@@ -494,7 +347,7 @@ var colores = [
                             });
                         });
                     }
-    </script>
+</script>
 
 
 <script>

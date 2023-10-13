@@ -1,0 +1,74 @@
+/* Estilos para pantallas de 601 píxeles en adelante */
+@media only screen and (min-width: 601px) {
+    /* Estilos para el contenedor del gráfico */
+    #chartContainer {
+        padding-bottom: 100% !important;
+    }
+    /* Estilos para el gráfico de barras */
+    canvas#barChart {
+        height: 598px !important;
+        width: 449px !important;
+        
+    }
+    /* Estilos para el elemento con id "informacion" */
+    #informacion {
+        display: block;
+    }
+    #filtrodata{
+        display: block;
+    }
+}
+
+/* Estilos para pantallas de 600 píxeles o menos */
+@media only screen and (max-width: 600px) {
+    /* Estilos para el contenedor del gráfico */
+    #chartContainer {
+        /* padding-bottom: 100% !important; */
+    }
+    /* Estilos para el gráfico de barras */
+    canvas#barChart {
+        height: 500px !important;
+    }
+    /* Estilos para el elemento con id "informacion" */
+    #informacion {
+        display: block;
+    }
+    #filtrodata{
+       display: block;
+    }
+}
+
+/* Estilos para hacer el gráfico responsive con Tailwind CSS */
+#chartContainer {
+    @apply relative;
+    @apply w-full;
+    @apply aspect-w-1 aspect-h-1;
+}
+canvas#barChart {
+    @apply absolute top-0 left-0 w-full h-full;
+}
+/* Estilos opcionales para el div */
+.icon-div {
+           border-radius: 12px;
+            width: 100px; /* Ajusta el ancho según tus necesidades */
+            height: 100px; /* Ajusta la altura según tus necesidades */
+            background-color: #EAA832; /* Fondo del div */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        body{
+
+    font-family: 'Maven Pro', sans-serif;
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    
+}
+.col-span-3.md\:col-span-1.bg-indigo-800.p-4.flex.flex-col.items-center {
+    font-weight: 600;
+}
+.font-medium {
+    font-weight: 600;
+}
