@@ -20,6 +20,7 @@
     <?php 
      include '../controller/librery/librery.php';
      require_once '../controller/librery/database.php';
+
     ?>
     <title>Estadistica</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -31,8 +32,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../controller/estadistica.css">
-
-    <!-- Estilos CSS adicionales y otras etiquetas head si las tienes -->
 
 
     <!--Liberia de menu-->
@@ -220,6 +219,9 @@
         document.body.appendChild(nuevoScript);
 </script>
 
+<script src="../controller/inventario.js">
+    
+</script>
 
 <script>
    
@@ -350,6 +352,9 @@
 </script>
 
 
+
+
+
 <script>
     const gananciaTotalElement = document.getElementById('gananciaTotal');
     const targetGananciaTotal = parseFloat(<?php echo $gananciaTotal; ?>); // Valor final de gananciaTotal
@@ -373,6 +378,7 @@
         }
     });
 </script>
+
 </body>
 </html>
 
