@@ -1,3 +1,6 @@
+.col-span-3.md\:col-span-2.p-4.bg-white {
+    padding-bottom: 150px;
+}
 table {border-collapse: collapse;}
 #example{
     font-family: 'Maven Pro', sans-serif;

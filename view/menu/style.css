@@ -36,6 +36,7 @@ ul{
     margin: 0 auto;
 }
 nav.nav{
+    z-index: 1;
     position: fixed;
     bottom: 3%;
     width: 275px;

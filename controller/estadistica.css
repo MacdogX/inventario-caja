@@ -1,4 +1,8 @@
 /* Estilos para pantallas de 601 píxeles en adelante */
+
+div#filtrodata {
+    padding-bottom: 180px;
+}
 @media only screen and (min-width: 601px) {
     /* Estilos para el contenedor del gráfico */
     #chartContainer {

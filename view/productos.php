@@ -38,6 +38,8 @@ if (isset($_SESSION['correo'])) {
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css"0>
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
         <script src="../controller/script_productos.js"> </script>
+         <!--Liberia de menu-->
+         <link rel="stylesheet" href="../view/menu/style.css">
 </head>
 <body>
 <?php  
@@ -46,6 +48,7 @@ if (isset($_SESSION['correo'])) {
         // Crear una instancia de la clase Database
         $database = new Connection;
 ?>
+<?php   include '../view/menu/barmenu.html'?>
 <div class="container mx-auto bg-blue-50">
             
             <div class="grid grid-cols-3 gap-4 ">

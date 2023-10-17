@@ -38,16 +38,17 @@
     <!-- Modal toggle -->
     <div class="flex flex-col items-center bg-indigo-800 p-4">
         <h2 class="text-white dark:text-black-600 mb-4 flex items-center ">
-            <svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
             </svg>
+
             Módulo de Registro de Ventas
         </h2>
         <button class="flex items-center bg-yellow-400 text-white hover:bg-gray-100 hover:text-gray-700 px-4 py-2 rounded-lg" onclick="openModal()">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-700" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 0a1 1 0 0 1 1 1v8h8a1 1 0 0 1 0 2h-8v8a1 1 0 0 1-2 0v-8H1a1 1 0 1 1 0-2h8V1a1 1 0 0 1 1-1z"/>
             </svg>
-            Agregar producto
+            Agregar Productos
         </button>
     </div>
 
@@ -153,6 +154,8 @@
     </div>
 
 
+  
+
 
 </div>
 
@@ -206,6 +209,9 @@
                     input.value = input.value.toUpperCase();
                 }
         </script>
+
+
+
 </body>
 </html>
 
